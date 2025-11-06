@@ -1,19 +1,16 @@
 import mongoose from "mongoose";
 
 const voteSchema = new mongoose.Schema({
-  voteID: { 
-    type: String, 
-    required: true, 
-    unique: true 
-  },
   //artwork sa artwork model
   artworkID: { 
-    type: String, 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: "Artwork",
     required: true 
   }, 
   //user reference
   voterID: { 
-    type: String, 
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User", 
     required: true 
   }, 
   score: { 
