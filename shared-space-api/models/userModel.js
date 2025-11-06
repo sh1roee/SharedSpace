@@ -1,11 +1,12 @@
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
-  userID: { 
-    type: mongoose.Schema.Types.ObjectId, 
-    default: () => new mongoose.Types.ObjectId(), 
-    unique: true 
-  },
+  // redundant to mongodb _id
+  // userID: { 
+  //   type: mongoose.Schema.Types.ObjectId, 
+  //   default: () => new mongoose.Types.ObjectId(), 
+  //   unique: true 
+  // },
   username: { 
     type: String, 
     required: true 
@@ -31,14 +32,22 @@ const userSchema = new mongoose.Schema({
     type: Number, 
     default: 0 
   },
+  // For checking streaks
+  lastActivityDate: {
+    type: Date
+  },
   badges: { 
     type: [String], 
     default: [] 
   },
-  friends: { 
-    type: [String], 
-    default: [] 
-  }
+  friends: [{ 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: "User" 
+  }],
+  friendRequests: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
+  }]
 });
 
 const User = mongoose.model("User", userSchema);
