@@ -1,8 +1,8 @@
 <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect x="60" y="98" width="190" height="304" stroke="black" stroke-width="18"/>
-<rect x="286" y="98" width="154" height="99" stroke="black" stroke-width="18"/>
-<rect x="286" y="235" width="154" height="167" stroke="black" stroke-width="18"/>
-<path d="M363.5 271L374.164 303.822H408.675L380.755 324.107L391.42 356.928L363.5 336.643L335.58 356.928L346.245 324.107L318.325 303.822H352.836L363.5 271Z" fill="black"/>
-<path d="M362.5 127L433.947 190.75H291.053L362.5 127Z" fill="black"/>
-<path d="M100 195H210V255C210 282.614 187.614 305 160 305H100V195Z" fill="black"/>
+<path d="M239.11 76.656V423.344H76.8896V76.656H239.11Z" stroke="black" stroke-width="27.78"/>
+<path d="M423.11 76.656V194.385H296.422V76.656H423.11Z" stroke="black" stroke-width="27.78"/>
+<path d="M423.11 250.385V423.344H296.422V250.385H423.11Z" stroke="black" stroke-width="27.78"/>
+<path d="M360.301 123.742L424.506 195.998H296.096L360.301 123.742Z" fill="black"/>
+<path d="M116.275 208.275H199.725V253.793C199.725 274.742 182.742 291.725 161.793 291.725H116.275V208.275Z" fill="black"/>
+<circle cx="359.766" cy="336.864" r="29.3987" fill="black"/>
 </svg>
