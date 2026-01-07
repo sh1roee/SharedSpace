@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 export function SignUpPage() {
   return (
     <>
@@ -17,7 +19,9 @@ export function SignUpPage() {
         <div>
             <h3>Already have an account?</h3>
 
-            <button>Log In</button>
+            <Link to = "/login">
+              <button>Log In</button>
+            </Link>
         </div>
     </>
   );

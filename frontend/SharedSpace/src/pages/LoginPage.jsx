@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 export function LoginPage() {
   return (
     <>
@@ -15,7 +17,9 @@ export function LoginPage() {
         <div>
             <h3>New to Shared Space?</h3>
 
-            <button>Sign Up</button>
+            <Link to = "/sign-up">
+              <button>Sign Up</button>
+            </Link>
         </div>
     </>
   );
