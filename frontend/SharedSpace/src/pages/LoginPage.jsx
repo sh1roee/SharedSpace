@@ -33,7 +33,7 @@ export function LoginPage() {
             </div>
 
             <div className = "login-page-logo">
-              <img src = {SharedSpaceLogo} alt = "Shared Space" className = "logo"/>
+              <img src = {SharedSpaceLogo} alt = "Shared Space" className = "page-logo"/>
             </div>
 
             <div className = "card-button">

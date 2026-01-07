@@ -34,7 +34,7 @@
 
 /* --------------------------------- */
 
-.navbar-logo {
+.navbar-component-logo {
     filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.2));
     transition: filter 0.25s ease, transform 0.25s ease;
 }
@@ -44,7 +44,7 @@
     transition: filter 0.25s ease, transform 0.25s ease;
 }
 
-.navbar-logo:hover {
+.navbar-component-logo:hover {
     filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.33));
     transform: scale(1.1);  
 }

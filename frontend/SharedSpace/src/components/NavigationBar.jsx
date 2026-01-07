@@ -12,7 +12,7 @@ export function NavigationBar() {
   return (
     <nav className = 'navbar'>
         <Link to = "/">
-            <div className = 'logo'>
+            <div className = 'navbar-component-logo'>
                 <img src = {SharedSpaceLogo} alt = "Shared Space" height = "55" width = "55" className = "navbar-logo"/>
             </div>
         </Link>
