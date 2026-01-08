@@ -1,17 +1,52 @@
 import './HomePage.css'
 import { BorderedButton } from '../../components/BorderedButton.jsx'
+import { useState } from 'react';
+import { ArtPopup } from '../../components/ArtPopup';
 import Share from '../../assets/ShareYourDay.svg'
+import SampleImg from '../../assets/SharedSpaceLogo.svg'
+import SampleImg2 from '../../assets/react.svg'
 
 export function HomePage(){
+     const artWorks = [
+            { img: SampleImg, date: "1/1/2026", description: "lorem ipsum dolor" ,author: "Nname"},
+            { img: SampleImg2, date: "1/4/2026", description: "lorem ipsum dolor" ,author: "Nname"},
+            { img: SampleImg2, date: "1/6/2026", description: "lorem ipsum dolor" ,author: "Cname"},
+            { img: SampleImg, date: "1/4/2026", description: "lorem ipsum dolor" ,author: "Dname"},
+    ];
+
+    //note: need isort based on date
+
+    const [activeArt, setActiveArt] = useState(null);
+
+
     return(
         <div className = 'home'>
             <div className='share'>
-            <img src={Share} className = 'Logo2'/>
-            <BorderedButton className='ShareButton' message={'Share'} size='pink'/>  
+                <div className='logo2container'>
+                <img src={Share} className = 'Logo2'/>
+                </div>  
+                <BorderedButton className='ShareButton' message={'Share'} size='pink'/>
             </div>
             <div className='works'>
+                <ArtPopup
+                    trigger={activeArt != null}
+                    setTrigger={() => setActiveArt(null)}
+                    img={activeArt?.img}
+                    date={activeArt?.date}
+                    desc={activeArt?.description}
+                />
 
+                <h1 className='worksText'>Your Recent Works</h1>
+                <div className='art-grid'>
+                    {artWorks.map((art, index) => (
+                        <div key={index} className='art-card' onClick={() => setActiveArt(art)}>
+                            <img src={art.img} alt={art.description} className='art-image'></img>
+                        </div>
+                    ))}
+                </div>
             </div>
+
+            
             <div className='friends'>
 
             </div>
@@ -28,7 +63,5 @@ export function HomePage(){
             </div>
 
         </div>
-
-
     )
 }

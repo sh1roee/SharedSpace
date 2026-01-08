@@ -20,7 +20,7 @@ function App() {
       {location.pathname !== "/login" && location.pathname !== "/sign-up" && <NavigationBar />}
 
       <Routes>
-        <Route index element={ //TEST ONLY 
+        {/* <Route index element={ //TEST ONLY 
           <div className="App">
             <h1>SharedSpace</h1>
             <BorderlessButton to='/' message={'header button'} type='header' />
@@ -32,9 +32,9 @@ function App() {
             <BorderedButton to='/' message={'Purple Button'} size='purple' />
             <BorderedButton to='/' message={'Pink Button'} size='pink' />
           </div>
-        } />
+        } /> */}
 
-        <Route path="home-page" element={<HomePage />} />
+        <Route index element={<HomePage />} />
         <Route path="art-wall" element={<ArtWallPage />} />
         <Route path="friends-space" element={<FriendsSpacePage />} />
         <Route path="leaderboard" element={<LeaderboardPage />} />
