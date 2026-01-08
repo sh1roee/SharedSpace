@@ -1,6 +1,6 @@
 import './HomePage.css'
-import { BorderedButton } from '../components/BorderedButton.jsx'
-import Share from '../assets/ShareYourDay.svg'
+import { BorderedButton } from '../../components/BorderedButton.jsx'
+import Share from '../../assets/ShareYourDay.svg'
 
 export function HomePage(){
     return(
