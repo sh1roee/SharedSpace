@@ -1,5 +1,6 @@
 import './HomePage.css'
 import { BorderedButton } from '../../components/BorderedButton.jsx'
+import { BorderlessButton } from '../../components/BorderlessButton.jsx';   
 import { useState } from 'react';
 import { ArtPopup } from '../../components/ArtPopup';
 import Share from '../../assets/ShareYourDay.svg'
@@ -13,7 +14,7 @@ export function HomePage(){
         { img: SampleImg2, date: "1/6/2026", description: "lorem ipsum dolor" ,author: "Cname"},
         { img: SampleImg, date: "1/4/2026", description: "lorem ipsum dolor" ,author: "Dname"},
     ];
-
+    //note: need isort based on date
     const friends_artWorks = [
         { img: SampleImg, date: "1/1/2026", description: "lorem ipsum dolor" ,author: "Nname"},
         { img: SampleImg2, date: "1/4/2026", description: "lorem ipsum dolor" ,author: "Nname"},
@@ -24,7 +25,6 @@ export function HomePage(){
     const randomIndex = Math.floor(Math.random() * friends_artWorks.length)
 
     const friendArt = friends_artWorks[randomIndex]
-    //note: need isort based on date
 
     const [activeArt, setActiveArt] = useState(null);
 
@@ -69,7 +69,16 @@ export function HomePage(){
                         <img src={friendArt.img} alt={friendArt.description} className='art-image'></img>
                     </div>
 
-                    <h1 className='friendsText'> Your friends shared their day!</h1>
+                    <div className='friends-text-area'>
+                        <h1 className='friendsText'> Your friends shared their day!</h1>
+                        <BorderlessButton 
+                        to='friends-space' 
+                        message='Go to Friends Space' 
+                        type='lightbody' 
+                        className='friendsButton'> 
+                        </BorderlessButton>
+                    </div>
+
             </div>
 
             <div className='bottom'>

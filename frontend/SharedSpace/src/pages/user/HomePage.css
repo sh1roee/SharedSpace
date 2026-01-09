@@ -14,17 +14,21 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    transform: translate(0px,2rem);
+    overflow: hidden;
+    background-color: #FAF3EB;
+    padding-bottom: 3rem;
+    z-index: 5;      
 }
 
 .shareButton{
-    transform: translate(0px, -2rem);
-    margin-bottom: 3rem;
+    margin-top: 10px;
+    
 }
 
 .Logo2{
-    transform: translate(-1rem);
     flex: 1;
+    margin-bottom: -2rem;
+    margin-top: 2rem;
 }
 
 .logo2container{
@@ -37,10 +41,10 @@
 .works{
     justify-content: center;
     text-align: center;
-    margin-top: 4rem;
-    margin-bottom: 4rem;
-    height: 10rem;
+    height: auto;
     background-color: #EDA8A8;
+    box-shadow: 0px 4px 10px rgb(45, 45, 45);
+    z-index: 6;
 }
 
 .worksText{
@@ -88,10 +92,11 @@
 .friends{
     display: flex;
     flex-direction: row;
-    margin-top: 20rem;
     justify-content: center;
     text-align: center;
     background-color: #5C5A7B;
+    box-shadow: 0px 4px 2px, rgb(0, 0, 0);
+    z-index: 3;
 }
 
 .friend-card{
@@ -111,8 +116,21 @@
     box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
 }
 
+.friends-text-area{
+    display: flex;
+    flex-direction: column;
+}
+
 .friendsText{
     color: #FFE2E2;
-    font-size: 60;
-    margin-top: 15rem;
+    font-size: 60px;
+    font-style: bold;
+    margin-top: 11.5rem;
+    max-width: 40rem;
+    margin-bottom: 1rem;
+}
+
+.friendsButton{
+    color: #FFE2E2;
+
 }
