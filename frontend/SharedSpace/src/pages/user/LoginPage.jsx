@@ -8,7 +8,7 @@ export function LoginPage() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    navigate('/'); // go home
+    navigate('/home'); // go home
   };
 
   return (
@@ -25,7 +25,7 @@ export function LoginPage() {
               <input type="password" placeholder="Enter password" required />
 
               <div className="card-button">
-                <BorderedButton to="/" message="Log In" size="purple" />
+                <BorderedButton to="/home" message="Log In" size="purple" />
               </div>
             </form>
           </div>

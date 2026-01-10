@@ -21,7 +21,7 @@ function App() {
 
   return (
     <>
-      {location.pathname !== "/login" && location.pathname !== "/sign-up" && (
+      {location.pathname !== "/" && location.pathname !== "/login" && location.pathname !== "/sign-up" && (
         <NavigationBar onSignOut={() => setShowSignOutPopup(true)} />
       )}
 
@@ -29,18 +29,19 @@ function App() {
         {/* <Route index element={ //TEST ONLY 
           <div className="App">
             <h1>SharedSpace</h1>
-            <BorderlessButton to='/' message={'header button'} type='header' />
-            <BorderlessButton to='/' message={'light body button'} type='lightbody' />
-            <BorderlessButton to='/' message={'dark body button'} type='darkbody' />
+            <BorderlessButton to='/home' message={'header button'} type='header' />
+            <BorderlessButton to='/home' message={'light body button'} type='lightbody' />
+            <BorderlessButton to='/home' message={'dark body button'} type='darkbody' />
             <br></br>
-            <BorderedButton to='/' message={'Large Button'} size='large' />
+            <BorderedButton to='/home' message={'Large Button'} size='large' />
             <br></br>
-            <BorderedButton to='/' message={'Purple Button'} size='purple' />
-            <BorderedButton to='/' message={'Pink Button'} size='pink' />
+            <BorderedButton to='/home' message={'Purple Button'} size='purple' />
+            <BorderedButton to='/home' message={'Pink Button'} size='pink' />
           </div>
         } /> */}
 
-        <Route index element={<HomePage />} />
+        <Route index element={<LoginPage />} />
+        <Route path="home" element={<HomePage />} />
         <Route path="art-wall" element={<ArtWallPage />} />
         <Route path="friends-space" element={<FriendsSpacePage />} />
         <Route path="leaderboard" element={<LeaderboardPage />} />
