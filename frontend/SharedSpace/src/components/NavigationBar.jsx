@@ -1,13 +1,6 @@
 import './NavigationBar.css'
 import { Link } from 'react-router-dom'
 import SharedSpaceLogo from '../assets/SharedSpaceLogo.svg'
-import ArtWallIcon from '../assets/ArtWallIcon.svg'
-import ChallengesIcon from '../assets/ChallengesIcon.svg'
-import FriendsSpaceIcon from '../assets/FriendsSpaceIcon.svg'
-import LeaderboardIcon from '../assets/LeaderboardIcon.svg'
-import LogoutIcon from '../assets/LogoutIcon.svg'
-import NotificationIcon from '../assets/NotificationIcon.svg'
-import ProfileIcon from '../assets/ProfileIcon.svg'
 
 export function NavigationBar({ onSignOut, hasNewNotifications, onNotifications }) {
     return (

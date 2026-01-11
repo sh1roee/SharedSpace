@@ -17,16 +17,32 @@ export function NotificationPopup({ onClose }) {
                     <li>
                         <div className = "notification-info">
                             <div className="notification-type">
-                                Notification type
+                                notification type
                             </div>
 
                             <div className="notification-time">
-                                3m ago
+                                time passed
                             </div>
                         </div>
 
                         <div className="notification-content">
-                            Notification content
+                            notification content
+                        </div>
+                    </li>
+
+                    <li>
+                        <div className = "notification-info">
+                            <div className="notification-type">
+                                notification type
+                            </div>
+
+                            <div className="notification-time">
+                                time passed
+                            </div>
+                        </div>
+
+                        <div className="notification-content">
+                            notification content
                         </div>
                     </li>
                 </ul>
