@@ -1,9 +1,20 @@
 import './BorderedButton.css'
 import { Link } from 'react-router-dom'
 
-export function BorderedButton({ to, message, size = 'large' }){
+/**
+ * BorderedButton Component
+ * 
+ * Props:
+ * - to: (optional) Route path for navigation using React Router Link
+ * - onClick: (optional) Function to call when button is clicked
+ * - message: Text to display on the button
+ * - size: 'large', 'purple', or 'pink' (default: 'large')
+ * 
+ * Note: Provide either 'to' OR 'onClick', not both
+ */
+export function BorderedButton({ to, onClick, message, size = 'large' }) {
     const getButtonClass = () => {
-        switch(size) {
+        switch (size) {
             case 'purple':
                 return 'borderedButton-purple';
             case 'pink':
@@ -13,8 +24,20 @@ export function BorderedButton({ to, message, size = 'large' }){
                 return 'borderedButton-large';
         }
     };
-    
-    return(
+
+    // If onClick is provided, render a button without Link
+    if (onClick) {
+        return (
+            <div className='borderedButton'>
+                <button className={getButtonClass()} onClick={onClick}>
+                    {message}
+                </button>
+            </div>
+        );
+    }
+
+    // Otherwise, render with Link for navigation
+    return (
         <>
             <Link to={to} className='borderedButton'>
                 <button className={getButtonClass()}>

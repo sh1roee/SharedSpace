@@ -1,0 +1,268 @@
+.share-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.share-popup-content {
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 30px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    animation: scaleIn 0.3s ease-in-out;
+    position: relative;
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.share-title {
+    margin: 0 0 20px 0;
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.drop-zone {
+    background-color: #e0e0e0;
+    border: 2px dashed #999;
+    border-radius: 12px;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.drop-zone.dragging {
+    background-color: #d0d0ff;
+    border-color: #6666ff;
+    transform: scale(1.02);
+}
+
+.drop-zone:hover {
+    background-color: #d5d5d5;
+    border-color: #666;
+}
+
+.drop-zone-content {
+    text-align: center;
+    color: #666;
+}
+
+.drop-zone-content p {
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+.browse-button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #fff;
+    border: 2px solid #999;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.browse-button:hover {
+    background-color: #f0f0f0;
+    border-color: #666;
+}
+
+.file-preview {
+    text-align: center;
+    width: 100%;
+}
+
+.file-count {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.file-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.file-list li {
+    padding: 8px;
+    background-color: #f5f5f5;
+    margin: 5px 0;
+    border-radius: 6px;
+    color: #555;
+    font-size: 14px;
+}
+
+.form-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+}
+
+.file-name-input {
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.2s ease;
+}
+
+.file-name-input:focus {
+    outline: none;
+    border-color: #6666ff;
+}
+
+.toggle-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.toggle-label {
+    font-size: 13px;
+    color: #666;
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 26px;
+    flex-shrink: 0;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.3s;
+    border-radius: 26px;
+}
+
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.3s;
+    border-radius: 50%;
+}
+
+input:checked+.toggle-slider {
+    background-color: #ff9999;
+}
+
+input:checked+.toggle-slider:before {
+    transform: translateX(24px);
+}
+
+.description-textarea {
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    resize: vertical;
+    transition: border-color 0.2s ease;
+}
+
+.description-textarea:focus {
+    outline: none;
+    border-color: #6666ff;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+    .share-popup-content {
+        width: 95%;
+        padding: 20px;
+    }
+
+    .share-title {
+        font-size: 20px;
+    }
+
+    .drop-zone {
+        min-height: 150px;
+        padding: 30px 15px;
+    }
+
+    .button-group {
+        flex-direction: column;
+    }
+}

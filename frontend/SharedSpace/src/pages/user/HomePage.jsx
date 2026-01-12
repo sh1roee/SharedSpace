@@ -1,25 +1,26 @@
 import './HomePage.css'
 import { BorderedButton } from '../../components/BorderedButton.jsx'
-import { BorderlessButton } from '../../components/BorderlessButton.jsx';   
+import { BorderlessButton } from '../../components/BorderlessButton.jsx';
 import { useState } from 'react';
 import { ArtPopup } from '../../components/ArtPopup';
+import { SharePopup } from '../../components/SharePopup';
 import Share from '../../assets/ShareYourDay.svg'
 import SampleImg from '../../assets/SharedSpaceLogo.svg'
 import SampleImg2 from '../../assets/react.svg'
 
-export function HomePage(){
-     const artWorks = [
-        { img: SampleImg, date: "1/1/2026", description: "lorem ipsum dolor" ,author: "Nname"},
-        { img: SampleImg2, date: "1/4/2026", description: "lorem ipsum dolor" ,author: "Nname"},
-        { img: SampleImg2, date: "1/6/2026", description: "lorem ipsum dolor" ,author: "Cname"},
-        { img: SampleImg, date: "1/4/2026", description: "lorem ipsum dolor" ,author: "Dname"},
+export function HomePage() {
+    const artWorks = [
+        { img: SampleImg, date: "1/1/2026", description: "lorem ipsum dolor", author: "Nname" },
+        { img: SampleImg2, date: "1/4/2026", description: "lorem ipsum dolor", author: "Nname" },
+        { img: SampleImg2, date: "1/6/2026", description: "lorem ipsum dolor", author: "Cname" },
+        { img: SampleImg, date: "1/4/2026", description: "lorem ipsum dolor", author: "Dname" },
     ];
     //note: need isort based on date
     const friends_artWorks = [
-        { img: SampleImg, date: "1/1/2026", description: "lorem ipsum dolor" ,author: "Nname"},
-        { img: SampleImg2, date: "1/4/2026", description: "lorem ipsum dolor" ,author: "Nname"},
-        { img: SampleImg2, date: "1/6/2026", description: "lorem ipsum dolor" ,author: "Cname"},
-        { img: SampleImg, date: "1/4/2026", description: "lorem ipsum dolor" ,author: "Dname"},
+        { img: SampleImg, date: "1/1/2026", description: "lorem ipsum dolor", author: "Nname" },
+        { img: SampleImg2, date: "1/4/2026", description: "lorem ipsum dolor", author: "Nname" },
+        { img: SampleImg2, date: "1/6/2026", description: "lorem ipsum dolor", author: "Cname" },
+        { img: SampleImg, date: "1/4/2026", description: "lorem ipsum dolor", author: "Dname" },
     ];
 
     const leaderboardData = [
@@ -40,15 +41,17 @@ export function HomePage(){
     const friendArt = friends_artWorks[randomIndex]
 
     const [activeArt, setActiveArt] = useState(null);
+    const [showSharePopup, setShowSharePopup] = useState(false);
 
 
-    return(
-        <div className = 'home'>
+    return (
+        <div className='home'>
             <div className='share'>
                 <div className='logo2container'>
-                <img src={Share} className = 'Logo2'/>
-                </div>  
-                <BorderedButton className='shareButton' message={'Share'} size='pink'/>
+                    <img src={Share} className='Logo2' />
+                </div>
+                <BorderedButton message='Share' size='pink' onClick={() => setShowSharePopup(true)}
+                />
             </div>
 
             <div className='works'>
@@ -69,7 +72,7 @@ export function HomePage(){
                     ))}
                 </div>
             </div>
-            
+
             <div className='friends'>
                 <ArtPopup
                     trigger={activeArt != null}
@@ -79,29 +82,29 @@ export function HomePage(){
                     desc={activeArt?.description}
                 />
 
-                    <div key={friendArt.author} className='friend-card' onClick={() => setActiveArt(friendArt)}>
-                        <img src={friendArt.img} alt={friendArt.description} className='art-image'></img>
-                    </div>
+                <div key={friendArt.author} className='friend-card' onClick={() => setActiveArt(friendArt)}>
+                    <img src={friendArt.img} alt={friendArt.description} className='art-image'></img>
+                </div>
 
-                    <div className='friends-text-area'>
-                        <h1 className='friendsText'> Your friends shared their day!</h1>
-                        <BorderlessButton 
-                        to='/friends-space' 
-                        message='Go to Friends Space' 
-                        type='lightbody' 
-                        className='friendsButton'> 
-                        </BorderlessButton>
-                    </div>
+                <div className='friends-text-area'>
+                    <h1 className='friendsText'> Your friends shared their day!</h1>
+                    <BorderlessButton
+                        to='/friends-space'
+                        message='Go to Friends Space'
+                        type='lightbody'
+                        className='friendsButton'>
+                    </BorderlessButton>
+                </div>
 
             </div>
 
             <div className='artWallPreview'>
                 <div className='artWallHeader'>
                     <h1 className='artWallText'>Explore the Art Wall</h1>
-                    <BorderlessButton 
-                        to='/art-wall' 
-                        message='View the Art Wall' 
-                        type='darkbody' 
+                    <BorderlessButton
+                        to='/art-wall'
+                        message='View the Art Wall'
+                        type='darkbody'
                         className='artWallButton'
                     />
                 </div>
@@ -118,10 +121,10 @@ export function HomePage(){
                 <div className='leaderboard'>
                     <div className='leaderboardInner'>
                         <h1 className='leaderboardText'>Who's at the top?</h1>
-                        <BorderlessButton 
-                            to='/leaderboard' 
-                            message='View the Leaderboard' 
-                            type='lightbody' 
+                        <BorderlessButton
+                            to='/leaderboard'
+                            message='View the Leaderboard'
+                            type='lightbody'
                             className='leaderboard-button'
                         />
                         <div className='podium-container'>
@@ -152,10 +155,10 @@ export function HomePage(){
                 <div className='challenge'>
                     <div className='challengeInner'>
                         <h1 className='challengeText'>Up for a challenge?</h1>
-                        <BorderlessButton 
-                            to='/challenges' 
-                            message='Go to Challenges' 
-                            type='darkbody' 
+                        <BorderlessButton
+                            to='/challenges'
+                            message='Go to Challenges'
+                            type='darkbody'
                             className='challenge-button-link'
                         />
                         <div className='challenge-container'>
@@ -169,8 +172,11 @@ export function HomePage(){
                 </div>
 
             </div>
+
+            <SharePopup
+                trigger={showSharePopup}
+                setTrigger={setShowSharePopup}
+            />
         </div>
-
-
     )
 }
