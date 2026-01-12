@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ArtPopup } from '../../components/ArtPopup';
 import { BorderedButton } from '../../components/BorderedButton';
 import { EditProfilePopup } from '../../components/EditProfilePopup';
+import { FriendsPopup } from '../../components/FriendsPopup';
 import SampleImg from '../../assets/arts/ukiyo.jpg';
 import SampleImg2 from '../../assets/arts/almondtree.jpg';
 import './ProfilePage.css';
@@ -79,6 +80,7 @@ export function ProfilePage() {
 
   // EDIT PROFILE LOGIC
   const [showEditProfile, setShowEditProfile] = useState(false);
+  const [showFriendsPopup, setShowFriendsPopup] = useState(false);
 
   /**
    * Updates the user state with new data from the EditProfilePopup.
@@ -108,41 +110,47 @@ export function ProfilePage() {
         onSave={handleSaveProfile}
       />
 
+      {/* Friends List/Requests/Add Popup */}
+      <FriendsPopup
+        isOpen={showFriendsPopup}
+        onClose={() => setShowFriendsPopup(false)}
+      />
+
       {/* HEADER SECTION */}
       <div className="profile-header">
-          <div className="profile-info-container">
-            <div className="profile-identity">
-              <div className="profile-avatar">
-                <img src={user.avatar} alt={user.username} />
-              </div>
-
-              <div className="profile-details">
-                <div className="profile-names">
-                  <h1>{user.username}</h1>
-                  <BorderedButton
-                    onClick={() => setShowEditProfile(true)}
-                    message="Edit Profile"
-                    size="purple"
-                  />
-                </div>
-
-                <p className="profile-bio">{user.bio}</p>
-              </div>
+        <div className="profile-info-container">
+          <div className="profile-identity">
+            <div className="profile-avatar">
+              <img src={user.avatar} alt={user.username} />
             </div>
 
-            <div className="profile-streak streak-card">
-              <div className="streak-grid">
-                <div className="streak-label">
-                  <h2>Current<br />Streak</h2>
-                </div>
-
-                <div className="streak-value">
-                  <h2>{user.streakCount}</h2>
-                </div>
+            <div className="profile-details">
+              <div className="profile-names">
+                <h1>{user.username}</h1>
+                <BorderedButton
+                  onClick={() => setShowEditProfile(true)}
+                  message="Edit Profile"
+                  size="purple"
+                />
               </div>
-            </div>
 
+              <p className="profile-bio">{user.bio}</p>
+            </div>
           </div>
+
+          <div className="profile-streak streak-card">
+            <div className="streak-grid">
+              <div className="streak-label">
+                <h2>Current<br />Streak</h2>
+              </div>
+
+              <div className="streak-value">
+                <h2>{user.streakCount}</h2>
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
 
 
@@ -208,7 +216,7 @@ export function ProfilePage() {
                 </button>
               </div>
             </div>
-          </div>  
+          </div>
 
           {/* FRIENDS */}
           <div className="card-shadow">
@@ -217,7 +225,7 @@ export function ProfilePage() {
                 <h2 className="sidebar-title">Friends</h2>
 
                 <BorderedButton
-                  to="/friends"
+                  onClick={() => setShowFriendsPopup(true)}
                   message="View All"
                   size="purple"
                 />

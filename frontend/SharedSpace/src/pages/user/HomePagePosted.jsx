@@ -6,6 +6,7 @@ import { ArtPopup } from '../../components/ArtPopup';
 import SampleImg from '../../assets/SharedSpaceLogo.svg'
 import SampleImg2 from '../../assets/react.svg'
 import PlaceDuTertre from '../../assets/arts/placedutertre.jpg'
+import Sunday from '../../assets/arts/sunday.jpg'
 import AugustRenoir from '../../assets/arts/augustrenoire.jpg'
 import CafeNight from '../../assets/arts/cafenight.jpg'
 import WaterLilies from '../../assets/arts/waterlilies.jpg'
@@ -20,7 +21,7 @@ import { SharePopup } from '../../components/SharePopup';
 
 export function HomePagePosted() {
     const artWorks = [
-        { img: PlaceDuTertre, date: "1/1/2026", description: "Place du Tertre", author: "Nname" },
+        { img: Sunday, date: "1/1/2026", description: "A Sunday Afternoon", author: "Nname" },
         { img: AugustRenoir, date: "1/4/2026", description: "August Renoir", author: "Nname" },
         { img: CafeNight, date: "1/6/2026", description: "Cafe Terrace at Night", author: "Cname" },
         { img: WaterLilies, date: "1/4/2026", description: "Water Lilies", author: "Dname" },
