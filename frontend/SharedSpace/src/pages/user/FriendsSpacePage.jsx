@@ -74,7 +74,7 @@ export function FriendsSpacePage() {
     };
 
     return (
-        <div className="friendSpaceContainer">
+        <div className="fs-container">
             {/* Popup modal for artwork details with author info */}
             <ArtPopup
                 trigger={activeArt != null}
@@ -86,36 +86,36 @@ export function FriendsSpacePage() {
                 authorImg={activeArt?.authorPic}
             />
 
-            <div className="content-wrapper">
-                <h1 className="title">Friends</h1>
-                <p className="subtitle">See what your friends have been sharing lately</p>
+            <div className="fs-content-wrapper">
+                <h1 className="fs-title">Friends</h1>
+                <p className="fs-subtitle">See what your friends have been sharing lately</p>
 
                 {/* Grid of current page artworks */}
-                <div className="artworks-grid">
+                <div className="fs-artworks-grid">
                     {getCurrentPageArtworks().map((art, index) => (
                         <div 
                             key={index} 
-                            className="artwork-card"
+                            className="fs-artwork-card"
                             onClick={() => setActiveArt(art)}
                         >
                             <img 
                                 src={art.img} 
                                 alt={art.description}
-                                className="artwork-image"
+                                className="fs-artwork-image"
                             />
                             {/* Author profile picture overlay */}
-                            <div className="artwork-avatar">
-                                <img src={art.authorPic} className='avatar-circle'/>
+                            <div className="fs-artwork-avatar">
+                                <img src={art.authorPic} className='fs-avatar-circle' alt={art.author}/>
                             </div>
                         </div>
                     ))}
                 </div>
 
                 {/* Pagination controls */}
-                <div className="navigation">
+                <div className="fs-navigation">
                     {/* Previous button */}
                     <button 
-                        className="nav-button"
+                        className="fs-nav-button"
                         onClick={handlePrevious}
                         disabled={currentPage === 0}
                     >
@@ -125,11 +125,11 @@ export function FriendsSpacePage() {
                     </button>
 
                     {/* Page indicator dots */}
-                    <div className="page-indicators">
+                    <div className="fs-page-indicators">
                         {Array.from({ length: totalPages }).map((_, index) => (
                             <div 
                                 key={index}
-                                className={`page-dot ${index === currentPage ? 'active' : ''}`}
+                                className={`fs-page-dot ${index === currentPage ? 'fs-active' : ''}`}
                                 onClick={() => setCurrentPage(index)}
                             />
                         ))}
@@ -137,7 +137,7 @@ export function FriendsSpacePage() {
 
                     {/* Next button */}
                     <button 
-                        className="nav-button"
+                        className="fs-nav-button"
                         onClick={handleNext}
                         disabled={currentPage === totalPages - 1}
                     >
