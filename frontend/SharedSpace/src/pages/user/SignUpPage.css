@@ -7,12 +7,16 @@ body {
      min-height: 100vh;
 }
 
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
 /* For card. */
 .card {
      display: flex;
      height: 100vh;
      width: 100vw;
 }
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 /* For card content. */
 .card-body {
@@ -38,6 +42,8 @@ body {
      box-shadow: 8px 8px 12px rgba(0, 0, 0, 0.25);
 }
 
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
 /* For logo. */
 .page-logo {
      filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.2));
@@ -51,11 +57,15 @@ body {
      transform: rotate(7.5deg) scale(1.05);
 }
 
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
 /* For buttons. */
 .card-button {
      align-self: center;
      justify-content: center;
 }
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 /* For header text. */
 .section-header {
@@ -72,7 +82,9 @@ body {
      filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.33));
 }
 
-/* For smaller header text. */
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+/* For subheader text. */
 .section-header2 {
      color: #4B486E;
      filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.2));
@@ -85,9 +97,10 @@ body {
      filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.33));
 }
 
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
 /* For login and sign-up card sections. */
-.login-form,
-.sign-up-prompt {
+.sign-up-form, .login-prompt {
      align-items: center;
      box-sizing: border-box;
      display: flex;
@@ -97,12 +110,14 @@ body {
      max-width: 600px;
 }
 
-.login-form:hover {
+.sign-up-form:hover {
      background-position: bottom center;
 }
 
-/* For login form. */
-.login-form form {
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+/* For sign-up form. */
+.sign-up-form form {
      display: flex;
      flex-direction: column;
      gap: 1rem;
@@ -110,15 +125,17 @@ body {
      width: 100%;
 }
 
-/* For login form boxes placeholder text. */
-.login-form input::placeholder {
+/* For sign-up form boxes placeholder text. */
+.sign-up-form input::placeholder {
      color: #524F73;
      font-size: 1.25rem;
 
 }
 
-/* For login form user input. */
-.login-form input {
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+/* For sign-up form user input. */
+.sign-up-form input {
      background-color: #8785A2;
      border: none;
      border-radius: 12px;
@@ -132,25 +149,29 @@ body {
      transition: box-shadow 0.25s ease, transform 0.25s ease;
 }
 
-.login-form input:hover {
+.sign-up-form input:hover {
      box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.33);
      transform: scale(1.05);
 }
 
-/* For selected login from boxes. */
-.login-form input:focus {
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+/* For selected sign-up form boxes. */
+.sign-up-form input:focus {
      box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
      outline: none;
 }
 
-/* For login form and sign-up button. */
-.login-form .borderedButton-purple,
-.sign-up-prompt .borderedButton-purple {
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+/* For sign-up form and login button. */
+.sign-up-form .borderedButton-purple,
+.login-prompt .borderedButton-purple {
      margin: 1rem;
      transform: scale(1.5);
 }
 
-.login-form form .borderedButton-purple:hover,
-.sign-up-prompt .borderedButton-purple:hover {
+.sign-up-form form .borderedButton-purple:hover,
+.login-prompt .borderedButton-purple:hover {
      transform: scale(1.5) !important;
 }

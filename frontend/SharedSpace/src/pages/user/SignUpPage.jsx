@@ -18,7 +18,7 @@ export function SignUpPage() {
     <>
       <div className="card">
         <div className="card-body">
-          <div className="sign-up-prompt">
+          <div className="login-prompt">
             <div className="section-header">
               Already have an account?  {/* Header message. */}
             </div>
@@ -27,7 +27,7 @@ export function SignUpPage() {
               Join a community of fellow artists today!  {/* Subheader message. */}
             </div>
 
-            <div className="login-page-logo">
+            <div className="sign-up-page-logo">
               <img src={SharedSpaceLogo} alt="Shared Space" className="page-logo" />  {/* Shared Space logo. */}
             </div>
 
@@ -38,7 +38,7 @@ export function SignUpPage() {
             </div>
           </div>
 
-          <div className="login-form">
+          <div className="sign-up-form">
             <div className="section-header">
               Create an Account  {/* Header message. */}
             </div>
@@ -51,7 +51,7 @@ export function SignUpPage() {
               <input type="password" placeholder="Confirm password" required />
 
               <div className="card-button">
-                <BorderedButton to="/login" message="Sign Up" size="purple" />  {/* Button redirects to login page. */}
+                <BorderedButton to="/login" message="Sign Up" size="purple" />  {/* Button (link) redirects to login page. */}
               </div>
             </form>
           </div>

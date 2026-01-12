@@ -1,3 +1,4 @@
+/* For navbar */
 .navbar {
     align-items: center;
     background: linear-gradient(to bottom, #ffe2e2, #eda8a8);
@@ -19,15 +20,24 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.33);
 }
 
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+/* For logo div. */
 .logo {
     justify-self: start;
 }
 
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+/* For center and right-hand side icons' divs. */
 .center-icons, .right-icons {
     flex-wrap: wrap;
     justify-content: center;
 }
 
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+/* For center icons' div. */
 .center-icons {
     align-items: center;
     display: flex;
@@ -35,6 +45,9 @@
     justify-self: center;
 }
 
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+/* For right-hand side icons' div. */
 .right-icons {
     align-items: center;
     display: flex;
@@ -42,20 +55,19 @@
     justify-self: end;
 }
 
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+/* For logo and right-hand side divs. */
 .logo, .right-icons {
     min-width: 120px;
 }
 
-/* -------------------------------------------------- */
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
+/* For logo. */
 .navbar-logo {
     align-items: center;
     display: flex;
-    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.2));
-    transition: filter 0.25s ease, transform 0.25s ease;
-}
-
-.navbar-icon {
     filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.2));
     transition: filter 0.25s ease, transform 0.25s ease;
 }
@@ -65,11 +77,22 @@
     transform: scale(1.1);  
 }
 
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+/* For icons. */
+.navbar-icon {
+    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.2));
+    transition: filter 0.25s ease, transform 0.25s ease;
+}
+
 .navbar-icon:hover {
     filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.33));
     transform: scale(1.2);
 }
 
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+/* For sign-out icon. */
 .navbar-sign-out-icon {
     background: none;
     border: none;
@@ -77,13 +100,15 @@
     margin-left: 6px;
 }
 
-/* -------------------------------------------------- */
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
+/* For notification icon. */
 .navbar-notification-icon {
     display: inline-block;
     position: relative;
 }
 
+/* For notification indicator. */
 .navbar-notification-indicator {
     background: red;
     border: 2px solid darkred;
@@ -95,8 +120,9 @@
     width: 10px;
 }
 
-/* -------------------------------------------------- */
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
+/* For smaller windows. */
 @media (max-width: 720px) {
     .navbar {
         grid-template-columns: 1fr;
@@ -105,12 +131,12 @@
     }
     .center-icons {
         gap: 2rem;
-        margin: 1rem 0 0 0;
+        margin: 1rem 0 0 0;  /* Decrease icon gap. */
     }
     .right-icons {
         gap: 2rem;
         justify-self: center;
-        margin: 0.5rem 0 0 0;
+        margin: 0.5rem 0 0 0;  /* Decrease icon gap. */
     }
     .logo {
         justify-self: center;
