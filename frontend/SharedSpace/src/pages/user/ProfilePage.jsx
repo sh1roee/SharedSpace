@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ArtPopup } from '../../components/ArtPopup';
 import { BorderedButton } from '../../components/BorderedButton';
 import { EditProfilePopup } from '../../components/EditProfilePopup';
+import { FriendsPopup } from '../../components/FriendsPopup';
 import SampleImg from '../../assets/arts/ukiyo.jpg';
 import SampleImg2 from '../../assets/arts/almondtree.jpg';
 import './ProfilePage.css';
@@ -80,6 +81,9 @@ export function ProfilePage() {
   // EDIT PROFILE LOGIC
   const [showEditProfile, setShowEditProfile] = useState(false);
 
+  // FRIENDS POPUP LOGIC
+  const [showFriendsPopup, setShowFriendsPopup] = useState(false);
+
   /**
    * Updates the user state with new data from the EditProfilePopup.
    * updatedData - The new user data (username, bio, etc.)
@@ -106,6 +110,12 @@ export function ProfilePage() {
         onClose={() => setShowEditProfile(false)}
         user={user}
         onSave={handleSaveProfile}
+      />
+
+      {/* Friends Popup */}
+      <FriendsPopup 
+        isOpen={showFriendsPopup}
+        onClose={() => setShowFriendsPopup(false)}
       />
 
       {/* HEADER SECTION */}
@@ -217,7 +227,7 @@ export function ProfilePage() {
                 <h2 className="sidebar-title">Friends</h2>
 
                 <BorderedButton
-                  to="/friends"
+                  onClick={() => setShowFriendsPopup(true)}
                   message="View All"
                   size="purple"
                 />

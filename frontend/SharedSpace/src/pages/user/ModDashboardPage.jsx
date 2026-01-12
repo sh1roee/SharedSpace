@@ -7,15 +7,15 @@ export function ModDashboardPage() {
   const [activeTab, setActiveTab] = useState('users');
 
   const users = [
-    { id: 1, username: "Feesha", email: "feesha@example.com", type: "Artist", date: "2024-01-01" },
-    { id: 2, username: "Angus", email: "angus@example.com", type: "Artist", date: "2024-01-10" },
-    { id: 3, username: "Elisha", email: "elisha@example.com", type: "Artist", date: "2024-02-15" },
-    { id: 4, username: "Francis", email: "francis@example.com", type: "Artist", date: "2024-03-01" },
-    { id: 5, username: "James", email: "james@example.com", type: "Artist", date: "2024-03-05" },
-    { id: 6, username: "Nathan", email: "nathan@example.com", type: "Viewer", date: "2024-03-12" },
-    { id: 7, username: "Shamel", email: "shamel@example.com", type: "Viewer", date: "2024-03-15" },
-    { id: 8, username: "Vince", email: "vince@example.com", type: "Artist", date: "2024-03-18" },
-    { id: 9, username: "Yvan", email: "yvan@example.com", type: "Artist", date: "2024-03-20" },
+    { id: 1, username: "Feesha", email: "feesha@example.com", type: "Admin", date: "2024-01-01" },
+    { id: 2, username: "Angus", email: "angus@example.com", type: "Admin", date: "2024-01-10" },
+    { id: 3, username: "Elisha", email: "elisha@example.com", type: "Admin", date: "2024-02-15" },
+    { id: 4, username: "Francis", email: "francis@example.com", type: "Admin", date: "2024-03-01" },
+    { id: 5, username: "James", email: "james@example.com", type: "Admin", date: "2024-03-05" },
+    { id: 6, username: "Nathan", email: "nathan@example.com", type: "User", date: "2024-03-12" },
+    { id: 7, username: "Shamel", email: "shamel@example.com", type: "User", date: "2024-03-15" },
+    { id: 8, username: "Vince", email: "vince@example.com", type: "User", date: "2024-03-18" },
+    { id: 9, username: "Yvan", email: "yvan@example.com", type: "User", date: "2024-03-20" },
   ];
 
   const reports = [
