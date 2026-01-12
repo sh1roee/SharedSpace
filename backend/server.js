@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors';
 
+
 //import all routers
 import userRouter from './routes/userRouter.js';
 import adminRouter from './routes/adminRouter.js';
@@ -10,6 +11,7 @@ import reportRouter from './routes/reportRouter.js';
 import artworkRouter from './routes/artworkRouter.js';
 import challengeRouter from './routes/challengeRouter.js';
 import voteRouter from './routes/voteRouter.js';
+import uploadRouter from './routes/uploadRouter.js'
 // import dashboardRouter from './routes/dashboardRouter.js';
 import leaderboardRouter from './routes/leaderboardRouter.js';
 
@@ -35,6 +37,7 @@ app.use('/api/artworks', artworkRouter);
 app.use('/api/reports', reportRouter);
 app.use('/api/challenges', challengeRouter);
 app.use('/api/votes', voteRouter);
+app.use('/api/upload', uploadRouter)
 // app.use('/api/dashboard', dashboardRouter);
 app.use('/api/leaderboard', leaderboardRouter);
 
