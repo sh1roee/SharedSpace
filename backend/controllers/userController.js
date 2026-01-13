@@ -43,6 +43,7 @@ const deleteUser = async (req, res, next) => {
 // update user by email
 const updateUser = async (req, res, next) => {
     try {
+        const userId = req.user.userId;
         // Not all fields included, only those that can be modified by users
         const { username, profilePicture, bio, password } = req.body;
 
@@ -64,7 +65,7 @@ const updateUser = async (req, res, next) => {
         }
 
         const updatedUser = await User.findByIdAndUpdate(
-            currentUserId, // Find by token ID, not body email
+            userId, // Find by token ID, not body email
             { $set: fieldsToUpdate },
             { new: true, runValidators: true } // runValidators ensures bio length 
         ).select("-password"); // This is a Mongoose shortcut to exclude the password automatically
@@ -88,7 +89,7 @@ const findCurrentUser = async (req, res) => {
             return res.status(401).json({ message: 'Unauthorized: Invalid token.' });
         }
         const userId = req.user.userId;
-        const user = await User.findById(userId).select('username email userType streakCount lastActivityDate');
+        const user = await User.findById(userId).select('username email userType streakCount lastActivityDate bio profilePicture badges friends');
         if (!user) {
             return res.status(404).json({ message: 'User not found.' });
         }
