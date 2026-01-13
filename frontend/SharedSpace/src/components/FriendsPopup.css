@@ -151,13 +151,14 @@
     color: #E6E3E3;
     border: none;
     border-radius: 8px;
-    width: 32px;
+    width: 30px;
     height: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     font-size: 14px;
+    font-family: 'Poppins', sans-serif;
     transition: background-color 0.2s;
 }
 
@@ -176,7 +177,7 @@
 
 .cancel-btn {
     width: auto;
-    padding: 0 16px;
+    padding: 0 12px;
     border-radius: 20px;
     font-size: 13px;
     font-weight: 600;
@@ -224,4 +225,17 @@
 
 .users-search .search-icon {
     color: #5E5B7C;
+}
+
+.friends-header .tabs button {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 1rem;
+}
+
+.search-bar input::placeholder,
+.search-bar input,
+.users-search input::placeholder,
+.users-search input {
+    font-family: 'Poppins', sans-serif; /* or any font */
 }
