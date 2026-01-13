@@ -100,7 +100,8 @@ body {
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 /* For login and sign-up card sections. */
-.sign-up-form, .login-prompt {
+.sign-up-form,
+.login-prompt {
      align-items: center;
      box-sizing: border-box;
      display: flex;
@@ -160,6 +161,51 @@ body {
 .sign-up-form input:focus {
      box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
      outline: none;
+}
+
+.password-container {
+     position: relative;
+     display: flex;
+     flex-direction: column;
+     margin: 0.5rem;
+     transition: transform 0.25s ease;
+}
+
+.password-container:hover {
+     transform: scale(1.05);
+}
+
+.password-container input {
+     width: 100%;
+     box-sizing: border-box;
+     margin: 0;
+     /* Remove margin inside container to prevent overflow */
+}
+
+.password-container input:hover {
+     transform: none;
+     /* Disable individual scaling since container handles it */
+}
+
+.password-toggle {
+     position: absolute;
+     right: 1.5rem;
+     top: 50%;
+     transform: translateY(-50%);
+     background: none;
+     border: none;
+     cursor: pointer;
+     color: #FFE2E2;
+     padding: 0;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.password-toggle:hover {
+     color: #4B486E;
+     transform: translateY(-50%) scale(1.1);
 }
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */

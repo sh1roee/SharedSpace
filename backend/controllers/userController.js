@@ -31,7 +31,7 @@ const deleteUser = async (req, res, next) => {
     try {
         const dUser = await User.findOneAndDelete({ email: req.body.email });
         if (!dUser) {
-           return res.status(404).send('User not found');
+            return res.status(404).send('User not found');
         }
         return res.status(200).send(`Successfully deleted user with email: ${dUser.email}`);
     } catch (err) {
@@ -45,7 +45,7 @@ const updateUser = async (req, res, next) => {
     try {
         // Not all fields included, only those that can be modified by users
         const { username, profilePicture, bio, password } = req.body;
-        
+
         // create an object to hold only the fields to update
         const fieldsToUpdate = {};
 
@@ -55,7 +55,7 @@ const updateUser = async (req, res, next) => {
         if (profilePicture) {
             fieldsToUpdate.profilePicture = profilePicture;
         }
-        if (req.body.bio !== undefined){
+        if (req.body.bio !== undefined) {
             fieldsToUpdate.bio = bio;
         }
         // If a new password is provided, rehash again
@@ -83,7 +83,7 @@ const updateUser = async (req, res, next) => {
 // find the current logged in user 
 const findCurrentUser = async (req, res) => {
     try {
-        console.log('Req User (from JWT):', req.user); 
+        console.log('Req User (from JWT):', req.user);
         if (!req.user || !req.user.userId) {
             return res.status(401).json({ message: 'Unauthorized: Invalid token.' });
         }
@@ -209,13 +209,13 @@ const sendFriendRequest = async (req, res) => {
         await friend.save();
 
         await sendNotification(
-            friendId, 
-            'friend_request', 
-            'New Friend Request', 
+            friendId,
+            'friend_request',
+            'New Friend Request',
             `${req.user.username} wants to be your friend!`,
             currentUserId
         );
-        
+
         res.status(200).json({ message: "Friend request sent." });
     } catch (error) {
         console.error('Error sending friend request:', error);
@@ -236,10 +236,10 @@ const acceptFriendRequest = async (req, res) => {
         if (!friend) {
             return res.status(404).json({ message: "User not found." });
         }
-        
+
         // Remove their ID from my friendRequests
         me.friendRequests = me.friendRequests.filter(id => id.toString() !== friendId);
-        
+
         // Add users to each other's friends list
         if (!me.friends.includes(friendId)) {
             me.friends.push(friendId);
@@ -252,9 +252,9 @@ const acceptFriendRequest = async (req, res) => {
         await friend.save();
 
         await sendNotification(
-            friendId, 
-            'friend_request', 
-            'Request Accepted', 
+            friendId,
+            'friend_request',
+            'Request Accepted',
             `${req.user.username} accepted your friend request!`
         );
 
@@ -277,7 +277,7 @@ const declineFriendRequest = async (req, res) => {
         me.friendRequests = me.friendRequests.filter(id => id.toString() !== friendId);
 
         await me.save();
-        
+
         res.status(200).json({ message: "Friend request declined." });
     } catch (error) {
         console.error('Error declining friend request:', error);
@@ -315,7 +315,7 @@ const getFriendsList = async (req, res) => {
 
     try {
         const user = await User.findById(currentUserId).populate('friends', 'username profilePicture email');
-        
+
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
@@ -332,11 +332,11 @@ const getPendingRequests = async (req, res) => {
 
     try {
         const user = await User.findById(currentUserId).populate('friendRequests', 'username profilePicture email');
-        
+
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
-        
+
         res.status(200).json(user.friendRequests);
     } catch (error) {
         console.error('Error fetching pending requests:', error);
@@ -376,7 +376,7 @@ export const updateStreak = async (userId) => {
     }
 };
 
-export { 
+export {
     findByUserEmail, deleteUser, updateUser, findCurrentUser, registerUser, loginUser, getRegisteredUsers,
     sendFriendRequest, acceptFriendRequest, declineFriendRequest, removeFriend, getFriendsList, getPendingRequests
 };

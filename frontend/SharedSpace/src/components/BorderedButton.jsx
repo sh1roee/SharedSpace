@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom'
  * 
  * Note: Provide either 'to' OR 'onClick', not both
  */
-export function BorderedButton({ to, onClick, message, size = 'large', type='button' }) {
+export function BorderedButton({ to, onClick, message, size = 'large', type = 'button' }) {
     const getButtonClass = () => {
         switch (size) {
             case 'purple':
@@ -25,8 +25,8 @@ export function BorderedButton({ to, onClick, message, size = 'large', type='but
         }
     };
 
-    // If onClick is provided, render a button without Link
-    if (onClick) {
+    // If it's a submit button or has an onClick handler, render a standard button
+    if (onClick || type === 'submit') {
         return (
             <div className='borderedButton'>
                 <button className={getButtonClass()} onClick={onClick} type={type}>
@@ -36,12 +36,12 @@ export function BorderedButton({ to, onClick, message, size = 'large', type='but
         );
     }
 
-    // Otherwise, render with Link for navigation
+    // Otherwise, render as a Link for navigation
     return (
-            <Link to={to} className='borderedButton'>
-                <button className={getButtonClass()} type={type}>
-                    {message}
-                </button>
-            </Link>
+        <Link to={to} className='borderedButton'>
+            <button className={getButtonClass()} type={type}>
+                {message}
+            </button>
+        </Link>
     );
 }

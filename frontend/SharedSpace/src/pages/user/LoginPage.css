@@ -24,7 +24,7 @@ body {
     background: linear-gradient(to bottom, #ffe2e2, #eda8a8);
     background-size: 125% 125%;
     border-radius: 12px;
-    box-shadow: 8px 8px 12px rgba(0,0,0,0.2);
+    box-shadow: 8px 8px 12px rgba(0, 0, 0, 0.2);
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -39,7 +39,7 @@ body {
 
 .card-body:hover {
     background-position: bottom;
-    box-shadow: 8px 8px 12px rgba(0,0,0,0.25);
+    box-shadow: 8px 8px 12px rgba(0, 0, 0, 0.25);
 }
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
@@ -98,14 +98,15 @@ body {
 }
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
- 
+
 /* For login and sign-up card sections. */
-.login-form, .sign-up-prompt {
+.login-form,
+.sign-up-prompt {
     align-items: center;
     box-sizing: border-box;
     display: flex;
     flex: 1 1 500px;
-    flex-direction: column;          
+    flex-direction: column;
     justify-content: center;
     max-width: 600px;
 }
@@ -163,16 +164,61 @@ body {
     outline: none;
 }
 
+.password-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin: 0.5rem;
+    transition: transform 0.25s ease;
+}
+
+.password-container:hover {
+    transform: scale(1.05);
+}
+
+.password-container input {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    /* Remove margin inside container to prevent overflow */
+}
+
+.password-container input:hover {
+    transform: none;
+    /* Disable individual scaling since container handles it */
+}
+
+.password-toggle {
+    position: absolute;
+    right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #FFE2E2;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.password-toggle:hover {
+    color: #4B486E;
+    transform: translateY(-50%) scale(1.1);
+}
+
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 /* For login form and sign-up button. */
-.login-form .borderedButton-purple, 
+.login-form .borderedButton-purple,
 .sign-up-prompt .borderedButton-purple {
     margin: 1rem;
     transform: scale(1.5);
 }
 
-.login-form form .borderedButton-purple:hover, 
+.login-form form .borderedButton-purple:hover,
 .sign-up-prompt .borderedButton-purple:hover {
-  transform: scale(1.5) !important;
+    transform: scale(1.5) !important;
 }
