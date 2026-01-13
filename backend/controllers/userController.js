@@ -217,7 +217,7 @@ const loginUser = async (req, res) => {
 //get registered users
 const getRegisteredUsers = async (req, res) => {
     try {
-        const users = await User.find({}).select('-password -email -__v');
+        const users = await User.find({}).select('-password -__v');
         res.status(200).json({ users });
     } catch {
         res.status(500).json({ error: 'Unable to get users.' });

@@ -12,7 +12,7 @@ const router = express.Router();
 router.post('/register', registerUser);
 router.post('/login', loginUser);
 
-router.get('/all', verifyToken, getRegisteredUsers);
+router.get('/all', verifyToken, isAdmin, getRegisteredUsers);
 
 router.get('/me', verifyToken, findCurrentUser);
 router.put('/update', verifyToken, updateUser);

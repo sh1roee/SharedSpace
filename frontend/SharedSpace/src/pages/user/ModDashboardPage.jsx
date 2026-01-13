@@ -1,28 +1,65 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SampleImg from '../../assets/arts/ukiyo.jpg';
 import SampleImg2 from '../../assets/arts/almondtree.jpg';
 import './ModDashboardPage.css';
 
 export function ModDashboardPage() {
   const [activeTab, setActiveTab] = useState('users');
+  const [users, setUsers] = useState([]);
+  const [reports, setReports] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const users = [
-    { id: 1, username: "Feesha", email: "feesha@example.com", type: "Artist", date: "2024-01-01" },
-    { id: 2, username: "Angus", email: "angus@example.com", type: "Artist", date: "2024-01-10" },
-    { id: 3, username: "Elisha", email: "elisha@example.com", type: "Artist", date: "2024-02-15" },
-    { id: 4, username: "Francis", email: "francis@example.com", type: "Artist", date: "2024-03-01" },
-    { id: 5, username: "James", email: "james@example.com", type: "Artist", date: "2024-03-05" },
-    { id: 6, username: "Nathan", email: "nathan@example.com", type: "Viewer", date: "2024-03-12" },
-    { id: 7, username: "Shamel", email: "shamel@example.com", type: "Viewer", date: "2024-03-15" },
-    { id: 8, username: "Vince", email: "vince@example.com", type: "Artist", date: "2024-03-18" },
-    { id: 9, username: "Yvan", email: "yvan@example.com", type: "Artist", date: "2024-03-20" },
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) return;
 
-  const reports = [
-    { id: "0001", preview: SampleImg, reason: "AI", date: "2024-03-20" },
-    { id: "0002", preview: SampleImg2, reason: "Spam", date: "2024-03-21" },
-    { id: "0003", preview: SampleImg, reason: "Copyright", date: "2024-03-22" },
-  ];
+      try {
+        // Fetch users
+        const usersResponse = await fetch('http://localhost:3000/api/users/all', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+        if (usersResponse.ok) {
+          const usersData = await usersResponse.json();
+          const formattedUsers = usersData.users
+            .filter(user => user.userType !== 'admin')
+            .map(user => ({
+              id: user._id,
+              username: user.username,
+              email: user.email,
+              type: 'User',
+              date: new Date(parseInt(user._id.substring(0, 8), 16) * 1000).toISOString().split('T')[0]
+            }));
+          setUsers(formattedUsers);
+        }
+
+        // Fetch reports
+        const reportsResponse = await fetch('http://localhost:3000/api/reports/', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+        if (reportsResponse.ok) {
+          const reportsData = await reportsResponse.json();
+          const formattedReports = reportsData.map(report => ({
+            id: report._id,
+            preview: report.artworkID?.imageURL || SampleImg,
+            reason: report.reason,
+            date: new Date(parseInt(report._id.substring(0, 8), 16) * 1000).toISOString().split('T')[0]
+          }));
+          setReports(formattedReports);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div className="mod-dashboard-page">
@@ -47,8 +84,9 @@ export function ModDashboardPage() {
 
         <div className="mod-main">
           <div className="card-shadow content-card">
-            {/* Moderating users */}
-            {activeTab === 'users' ? (
+            {loading ? (
+              <div>Loading...</div>
+            ) : activeTab === 'users' ? (
               <>
                 {/* Users header */}
                 <div className="table-header">
