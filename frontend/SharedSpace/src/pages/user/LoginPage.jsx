@@ -23,7 +23,7 @@ export function LoginPage() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email: email.trim(), password }),
       });
 
       const data = await response.json();
@@ -57,8 +57,8 @@ export function LoginPage() {
             {/* Form for user input. */}
             <form onSubmit={handleLogin}>
               <input
-                type="email"
-                placeholder="Enter email"
+                type="text"
+                placeholder="Enter email or username"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required

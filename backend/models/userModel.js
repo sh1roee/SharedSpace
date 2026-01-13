@@ -7,47 +7,48 @@ const userSchema = new mongoose.Schema({
   //   default: () => new mongoose.Types.ObjectId(), 
   //   unique: true 
   // },
-  username: { 
-    type: String, 
-    required: true 
+  username: {
+    type: String,
+    required: true,
+    unique: true
   },
-  email: { 
-    type: String, 
-    required: true, 
-    unique: true 
+  email: {
+    type: String,
+    required: true,
+    unique: true
   },
-  password: { 
-    type: String, 
-    required: true 
+  password: {
+    type: String,
+    required: true
   },
-  userType: { 
-    type: String, 
-    default: "user", 
-    enum: ["admin", "user"] 
+  userType: {
+    type: String,
+    default: "user",
+    enum: ["admin", "user"]
   },
-  profilePicture: { 
-    type: String 
+  profilePicture: {
+    type: String
   },
   bio: {
     type: String,
     maxlength: [100, "Bio cannot exceed 100 characters"], // Backend limit + Custom error message
     trim: true
   },
-  streakCount: { 
-    type: Number, 
-    default: 0 
+  streakCount: {
+    type: Number,
+    default: 0
   },
   // For checking streaks
   lastActivityDate: {
     type: Date
   },
-  badges: { 
-    type: [String], 
-    default: [] 
+  badges: {
+    type: [String],
+    default: []
   },
-  friends: [{ 
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: "User" 
+  friends: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
   }],
   friendRequests: [{
     type: mongoose.Schema.Types.ObjectId,

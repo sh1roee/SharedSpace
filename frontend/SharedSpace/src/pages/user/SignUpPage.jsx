@@ -31,13 +31,12 @@ export function SignUpPage() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, username, password }),
+        body: JSON.stringify({ email: email.trim(), username: username.trim(), password }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        alert('Account created! Now log in to get started.');
         navigate('/login');  // Redirects to login page.
       } else {
         setError(data.error || 'Registration failed. Try a different email/username.');

@@ -111,9 +111,19 @@ const findCurrentUser = async (req, res) => {
 //register user
 const registerUser = async (req, res) => {
     try {
-        const existingUser = await User.findOne({ email: req.body.email });
+        const { email, username, password } = req.body;
+        const trimmedEmail = email ? email.trim() : '';
+        const trimmedUsername = username ? username.trim() : '';
+
+        const existingUser = await User.findOne({
+            $or: [
+                { email: { $regex: new RegExp(`^${trimmedEmail}$`, 'i') } },
+                { username: { $regex: new RegExp(`^${trimmedUsername}$`, 'i') } }
+            ]
+        });
         if (existingUser) {
-            return res.status(409).json({ error: 'User with this email already exists' });
+            const field = existingUser.email.toLowerCase() === trimmedEmail.toLowerCase() ? 'email' : 'username';
+            return res.status(409).json({ error: `User with this ${field} already exists` });
         }
 
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
@@ -141,11 +151,19 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
-        const user = await User.findOne({ email });
-        if (!user) return res.status(401).json({ error: "Invalid email or password." });
+        const identifier = email ? email.trim() : '';
+
+        const user = await User.findOne({
+            $or: [
+                { email: { $regex: new RegExp(`^${identifier}$`, 'i') } },
+                { username: { $regex: new RegExp(`^${identifier}$`, 'i') } }
+            ]
+        });
+
+        if (!user) return res.status(401).json({ error: "Invalid email/username or password." });
 
         const isValid = await bcrypt.compare(password, user.password);
-        if (!isValid) return res.status(401).json({ error: "Invalid email or password." });
+        if (!isValid) return res.status(401).json({ error: "Invalid email/username or password." });
 
         if (user.userType === "blocked") {
             return res.status(403).json({ error: "Your account has been blocked." });
