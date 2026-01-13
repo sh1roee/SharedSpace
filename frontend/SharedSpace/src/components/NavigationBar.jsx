@@ -119,7 +119,7 @@ export function NavigationBar({ onSignOut, hasNewNotifications, onNotifications 
                     </svg>
 
                     {/* Indicator appears for new notifications. */}
-                    {hasNewNotifications && <span className="notification-indicator"></span>}
+                    {hasNewNotifications && <span className="navbar-notification-indicator"></span>}
                 </div>
 
                 {/* Sign-out icon. */}

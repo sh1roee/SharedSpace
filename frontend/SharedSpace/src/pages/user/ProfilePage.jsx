@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { ArtPopup } from '../../components/ArtPopup';
 import { BorderedButton } from '../../components/BorderedButton';
 import { EditProfilePopup } from '../../components/EditProfilePopup';
@@ -20,6 +21,7 @@ import './ProfilePage.css';
  */
 
 export function ProfilePage() {
+  const location = useLocation();
   const [user, setUser] = useState({
     username: "",
     bio: "",
@@ -134,6 +136,16 @@ export function ProfilePage() {
   const [showEditProfile, setShowEditProfile] = useState(false);
   const [showFriendsPopup, setShowFriendsPopup] = useState(false);
 
+  // For friend request notifications to navigate directly to friends popup
+  useEffect(() => {
+    if (location.state?.openFriendsTab) {
+      setShowFriendsPopup(true);
+      
+      // Clean up the state so it doesn't re-open on every refresh
+      window.history.replaceState({}, document.title);
+    }
+  }, [location]);
+
   /**
    * Updates the user state with new data from the EditProfilePopup.
    * updatedData - The new user data (username, bio, etc.)
@@ -169,6 +181,7 @@ export function ProfilePage() {
     }
   };
 
+  
   return (
     <div className="profile-page">
       {/* Artwork Detail Popup */}

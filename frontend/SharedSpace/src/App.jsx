@@ -1,7 +1,7 @@
 import './App.css'
 import "@fontsource/poppins"
 import { useLocation } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { ModNavigationBar } from './components/ModNavigationBar'
 import { NavigationBar } from './components/NavigationBar'
 import { Routes, Route, Navigate, Link } from 'react-router-dom'
@@ -24,13 +24,49 @@ function App() {
   const [showSignOutPopup, setShowSignOutPopup] = useState(false)
   const [showNotifications, setShowNotifications] = useState(false)
 
+  // For polling new notifications every 30 seconds
+  useEffect(() => {
+    const checkNotifications = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) return;
+
+      try {
+        const response = await fetch('http://localhost:3000/api/notifications'  , {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await response.json();
+
+        if (response.ok) {
+          // Look through the data to see if there is any unread notification
+          const unreadExists = data.some(n => n.isRead === false);
+          setHasNewNotifications(unreadExists);
+        }
+      } catch (err) {
+        console.error("Polling error:", err);
+      }
+    };
+
+    // Run immediately then every 30 seconds
+    checkNotifications();
+    const interval = setInterval(checkNotifications, 30000);
+
+    return () => clearInterval(interval); // cleanup when the app closes
+  }, [location.pathname]); // Recheck when the user changes pages
+
   return (
     <>
       {location.pathname === "/mod-dashboard" ? (
         <ModNavigationBar onSignOut={() => setShowSignOutPopup(true)} />
       ) : (
         location.pathname !== "/" && location.pathname !== "/login" && location.pathname !== "/sign-up" && (
-          <NavigationBar onSignOut={() => setShowSignOutPopup(true)} hasNewNotifications={hasNewNotifications} onNotifications={() => setShowNotifications(true)} />
+          <NavigationBar 
+            onSignOut={() => setShowSignOutPopup(true)} 
+            hasNewNotifications={hasNewNotifications} 
+            onNotifications={() => {
+              setShowNotifications(true);
+              setHasNewNotifications(false);
+            }} 
+          />
         )
       )}
 
