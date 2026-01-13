@@ -2,6 +2,7 @@ import './App.css'
 import "@fontsource/poppins"
 import { useLocation } from 'react-router-dom'
 import { useState } from 'react'
+import { ModNavigationBar } from './components/ModNavigationBar'
 import { NavigationBar } from './components/NavigationBar'
 import { Routes, Route } from 'react-router-dom'
 import { ArtWallPage } from './pages/user/ArtWallPage.jsx'
@@ -10,6 +11,7 @@ import { LeaderboardPage } from './pages/user/LeaderboardPage.jsx'
 import { LoginPage } from './pages/user/LoginPage.jsx'
 import { SignUpPage } from './pages/user/SignUpPage.jsx'
 import { HomePage } from './pages/user/HomePage.jsx'
+import { HomePagePosted } from './pages/user/HomePagePosted.jsx'
 import { ProfilePage } from './pages/user/ProfilePage.jsx'
 import { ModDashboardPage } from './pages/user/ModDashboardPage.jsx'
 import { ChallengesPage } from './pages/user/ChallengesPage.jsx'
@@ -25,7 +27,7 @@ function App() {
   return (
     <>
       {location.pathname !== "/" && location.pathname !== "/login" && location.pathname !== "/sign-up" && (
-        <NavigationBar onSignOut={()=>setShowSignOutPopup(true)} hasNewNotifications={hasNewNotifications} onNotifications={()=>setShowNotifications(true)} />
+        <NavigationBar onSignOut={() => setShowSignOutPopup(true)} hasNewNotifications={hasNewNotifications} onNotifications={() => setShowNotifications(true)} />
       )}
 
       <Routes>
@@ -45,6 +47,7 @@ function App() {
 
         <Route index element={<LoginPage />} />
         <Route path="home" element={<HomePage />} />
+        <Route path="home-posted" element={<HomePagePosted />} />
         <Route path="art-wall" element={<ArtWallPage />} />
         <Route path="friends-space" element={<FriendsSpacePage />} />
         <Route path="leaderboard" element={<LeaderboardPage />} />
@@ -59,9 +62,9 @@ function App() {
         <SignOutPopup
           onClose={() => setShowSignOutPopup(false)}
           onLogout={() => {
-          setShowSignOutPopup(false);
-          setShowNotifications(false);
-        }} />
+            setShowSignOutPopup(false);
+            setShowNotifications(false);
+          }} />
       )}
 
       {showNotifications && (<NotificationPopup onClose={() => setShowNotifications(false)} />)}

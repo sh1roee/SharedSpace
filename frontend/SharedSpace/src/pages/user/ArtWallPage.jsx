@@ -10,12 +10,15 @@ import Nippon from '../../assets/arts/nippon.jpg';
 import Sakura from '../../assets/arts/sakura.jpg';
 import Sunday from '../../assets/arts/ukiyo.jpg';
 import WaterLily from '../../assets/arts/waterlilies.jpg'
+import Canvas from '../../assets/arts/canvas.jpg';
+import Dogs from '../../assets/arts/dogs.jpg';
+import France from '../../assets/arts/france.jpg';
+import Tertre from '../../assets/arts/placedutertre.jpg';
+import StSiffret from '../../assets/arts/stsiffret.jpg';
+import SundayReal from '../../assets/arts/sunday.jpg';
+import CherryBlossom from '../../assets/arts/cherryblossom.jpg';
 
 export function ArtWallPage() {
-    /**
-     * Array of artwork objects containing image sources and metadata
-     * @type {Array<{img: string, date: string, description: string}>}
-     */
     const artWorks = [
         { img: Almond, date: "1/3/2026", description: "lorem ipsum dolor" },
         { img: August, date: "1/4/2026", description: "lorem ipsum dolor" },
@@ -25,54 +28,49 @@ export function ArtWallPage() {
         { img: Nippon, date: "1/4/2026", description: "lorem ipsum dolor" },
         { img: Sakura, date: "1/5/2026", description: "lorem ipsum dolor" },
         { img: Sunday, date: "1/4/2026", description: "lorem ipsum dolor" },
-        { img: WaterLily, date: "1/5/2026", description: "lorem ipsum dolor" }
+        { img: WaterLily, date: "1/5/2026", description: "lorem ipsum dolor" },
+        { img: Canvas, date: "1/6/2026", description: "Community Canvas" },
+        { img: Dogs, date: "1/7/2026", description: "Playful Dogs" },
+        { img: France, date: "1/8/2026", description: "French Landscape" },
+        { img: Tertre, date: "1/9/2026", description: "Place du Tertre" },
+        { img: StSiffret, date: "1/10/2026", description: "Saint Siffret" },
+        { img: SundayReal, date: "1/11/2026", description: "A Sunday Afternoon" },
+        { img: CherryBlossom, date: "1/12/2026", description: "Cherry Blossom" }
     ]
-    
-    /**
-     * Currently selected artwork for popup display
-     * @type {Object|null}
-     */
     const [activeArt, setActiveArt] = useState(null);
-    
-    /**
-     * Effect hook for masonry grid layout management
-     * Dynamically calculates and applies grid row spans based on image heights
-     * to create a Pinterest-style masonry layout
-     */
+
     useEffect(() => {
-        /**
-         * Resizes a single grid item based on its content height
-         * @param {HTMLElement} item - The grid item to resize
-         */
-        const resizeGridItem = (item) => {
+        const resizeGridItem = (item, img) => {
             const grid = document.querySelector('.artWall');
             const rowHeight = parseInt(window.getComputedStyle(grid).getPropertyValue('grid-auto-rows'));
             const rowGap = parseInt(window.getComputedStyle(grid).getPropertyValue('gap'));
-            const rowSpan = Math.ceil((item.querySelector('.artWork').getBoundingClientRect().height + rowGap) / (rowHeight + rowGap));
+
+            // Calculate the aspect ratio and determine height
+            const width = item.offsetWidth;
+            const aspectRatio = img.naturalWidth / img.naturalHeight;
+            const calculatedHeight = width / aspectRatio;
+
+            const rowSpan = Math.ceil((calculatedHeight + rowGap) / (rowHeight + rowGap));
             item.style.gridRowEnd = `span ${rowSpan}`;
+            item.style.height = `${calculatedHeight}px`;
         };
 
-        /**
-         * Resizes all grid items after images load
-         * Handles both already-loaded images and images still loading
-         */
         const resizeAllGridItems = () => {
             const allItems = document.querySelectorAll('.artWorkItem');
             allItems.forEach(item => {
                 const img = item.querySelector('.artWork');
-                if (img.complete) {
-                    resizeGridItem(item);
+                if (img.complete && img.naturalHeight !== 0) {
+                    resizeGridItem(item, img);
                 } else {
-                    img.addEventListener('load', () => resizeGridItem(item));
+                    img.addEventListener('load', () => resizeGridItem(item, img));
                 }
             });
         };
 
-        // Initial resize and window resize listener
-        resizeAllGridItems();
+        // Small delay to ensure images are loaded
+        setTimeout(resizeAllGridItems, 100);
         window.addEventListener('resize', resizeAllGridItems);
 
-        // Cleanup function
         return () => {
             window.removeEventListener('resize', resizeAllGridItems);
         };
@@ -80,7 +78,6 @@ export function ArtWallPage() {
 
     return (
         <div className="artWallContainer">
-            {/* Popup modal for displaying artwork details */}
             <ArtPopup
                 trigger={activeArt != null}
                 setTrigger={() => setActiveArt(null)}
@@ -88,17 +85,14 @@ export function ArtWallPage() {
                 date={activeArt?.date}
                 desc={activeArt?.description}
             />
-            
-            <h1 className='title'>Art Wall</h1>
-            <p className='subtitle'>See what the community's been creating lately 🎨</p>
-            
+            <h1 className='aw-title'>Art Wall</h1>
+            <p className='aw-subtitle'>See what the community's been creating lately 🎨</p>
             <div className='artWallWrapper'>
                 <div className='artWall'>
-                    {/* Map through artworks and render grid items */}
                     {
                         artWorks.map((art, index) => (
-                            <div 
-                                className='artWorkItem' 
+                            <div
+                                className='artWorkItem'
                                 key={index}
                                 onClick={() => { setActiveArt(art) }}
                             >

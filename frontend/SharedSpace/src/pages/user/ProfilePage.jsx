@@ -1,16 +1,26 @@
 import React, { useState } from 'react';
 import { ArtPopup } from '../../components/ArtPopup';
 import { BorderedButton } from '../../components/BorderedButton';
+import { EditProfilePopup } from '../../components/EditProfilePopup';
+import { FriendsPopup } from '../../components/FriendsPopup';
 import SampleImg from '../../assets/arts/ukiyo.jpg';
 import SampleImg2 from '../../assets/arts/almondtree.jpg';
 import './ProfilePage.css';
 
-// IN PROGRESS:
-// EDIT PROFILE (baka popup nlng idk)
-// FRIENDS TAB
+/**
+ * ProfilePage Component
+ * 
+ * Displays the user's profile information including:
+ * - Avatar, username, bio
+ * - Streak count
+ * - Recent posts (artworks)
+ * - Achievements
+ * - Friends list
+ * 
+ */
 
 export function ProfilePage() {
-  const user = {
+  const [user, setUser] = useState({
     username: "Feesha",
     bio: "gah",
     streakCount: 12,
@@ -48,67 +58,99 @@ export function ProfilePage() {
       { id: 3, name: "Vince", avatar: SampleImg2 },
       { id: 4, name: "Yvan", avatar: SampleImg },
     ]
-  };
+  });
 
-  // Pagination for achievements
+  // State for the currently selected artwork to display in the popup
   const [activeArt, setActiveArt] = useState(null);
 
+  // ACHIEVEMENT PAGINATION LOGIC
   const ACHIEVEMENTS_PER_PAGE = 3;
   const [achievementPage, setAchievementPage] = useState(0);
 
+  // Calculate the maximum page index
   const maxAchievementPage = Math.ceil(
     user.achievements.length / ACHIEVEMENTS_PER_PAGE
   ) - 1;
 
+  // Slice the achievements array to get only the items for the current page
   const paginatedAchievements = user.achievements.slice(
     achievementPage * ACHIEVEMENTS_PER_PAGE,
     achievementPage * ACHIEVEMENTS_PER_PAGE + ACHIEVEMENTS_PER_PAGE
   );
 
+  // EDIT PROFILE LOGIC
+  const [showEditProfile, setShowEditProfile] = useState(false);
+  const [showFriendsPopup, setShowFriendsPopup] = useState(false);
+
+  /**
+   * Updates the user state with new data from the EditProfilePopup.
+   * updatedData - The new user data (username, bio, etc.)
+   */
+  const handleSaveProfile = (updatedData) => {
+    setUser(prev => ({
+      ...prev,
+      ...updatedData
+    }));
+  };
 
   return (
     <div className="profile-page">
+      {/* Artwork Detail Popup */}
       <ArtPopup
         trigger={activeArt != null}
         setTrigger={() => setActiveArt(null)}
         img={activeArt?.img}
       />
 
-      {/* HEADER */}
+      {/* Edit Profile Modal */}
+      <EditProfilePopup
+        isOpen={showEditProfile}
+        onClose={() => setShowEditProfile(false)}
+        user={user}
+        onSave={handleSaveProfile}
+      />
+
+      {/* Friends List/Requests/Add Popup */}
+      <FriendsPopup
+        isOpen={showFriendsPopup}
+        onClose={() => setShowFriendsPopup(false)}
+      />
+
+      {/* HEADER SECTION */}
       <div className="profile-header">
-          <div className="profile-info-container">
-            <div className="profile-identity">
-              <div className="profile-avatar">
-                <img src={user.avatar} alt={user.username} />
-              </div>
-
-              <div className="profile-details">
-                <div className="profile-names">
-                  <h1>{user.username}</h1>
-                  <BorderedButton
-                    to="/settings"
-                    message="Edit Profile"
-                    size="purple"
-                  />
-                </div>
-
-                <p className="profile-bio">{user.bio}</p>
-              </div>
+        <div className="profile-info-container">
+          <div className="profile-identity">
+            <div className="profile-avatar">
+              <img src={user.avatar} alt={user.username} />
             </div>
 
-            <div className="profile-streak streak-card">
-              <div className="streak-grid">
-                <div className="streak-label">
-                  <h2>Current<br />Streak</h2>
-                </div>
-
-                <div className="streak-value">
-                  <h2>{user.streakCount}</h2>
-                </div>
+            <div className="profile-details">
+              <div className="profile-names">
+                <h1>{user.username}</h1>
+                <BorderedButton
+                  onClick={() => setShowEditProfile(true)}
+                  message="Edit Profile"
+                  size="purple"
+                />
               </div>
-            </div>
 
+              <p className="profile-bio">{user.bio}</p>
+            </div>
           </div>
+
+          <div className="profile-streak streak-card">
+            <div className="streak-grid">
+              <div className="streak-label">
+                <h2>Current<br />Streak</h2>
+              </div>
+
+              <div className="streak-value">
+                <h2>{user.streakCount}</h2>
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
 
 
@@ -146,6 +188,7 @@ export function ProfilePage() {
               <h2 className="sidebar-title">Achievements</h2>
 
               <div className="achievements-wrapper">
+                {/* Previous Page Button */}
                 <button
                   className="achievements-arrow"
                   disabled={achievementPage === 0}
@@ -154,6 +197,7 @@ export function ProfilePage() {
                   ‹
                 </button>
 
+                {/* Achievement Icons */}
                 <div className="achievements-list">
                   {paginatedAchievements.map(ach => (
                     <span key={ach.id} className="achievement-icon">
@@ -162,6 +206,7 @@ export function ProfilePage() {
                   ))}
                 </div>
 
+                {/* Next Page Button */}
                 <button
                   className="achievements-arrow"
                   disabled={achievementPage === maxAchievementPage}
@@ -171,7 +216,7 @@ export function ProfilePage() {
                 </button>
               </div>
             </div>
-          </div>  
+          </div>
 
           {/* FRIENDS */}
           <div className="card-shadow">
@@ -180,7 +225,7 @@ export function ProfilePage() {
                 <h2 className="sidebar-title">Friends</h2>
 
                 <BorderedButton
-                  to="/friends"
+                  onClick={() => setShowFriendsPopup(true)}
                   message="View All"
                   size="purple"
                 />
