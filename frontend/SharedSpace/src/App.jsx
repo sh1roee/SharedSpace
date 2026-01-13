@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom'
 import { useState } from 'react'
 import { ModNavigationBar } from './components/ModNavigationBar'
 import { NavigationBar } from './components/NavigationBar'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate, Link } from 'react-router-dom'
 import { ArtWallPage } from './pages/user/ArtWallPage.jsx'
 import { FriendsSpacePage } from './pages/user/FriendsSpacePage.jsx'
 import { LeaderboardPage } from './pages/user/LeaderboardPage.jsx'
@@ -26,8 +26,12 @@ function App() {
 
   return (
     <>
-      {location.pathname !== "/" && location.pathname !== "/login" && location.pathname !== "/sign-up" && (
-        <NavigationBar onSignOut={() => setShowSignOutPopup(true)} hasNewNotifications={hasNewNotifications} onNotifications={() => setShowNotifications(true)} />
+      {location.pathname === "/mod-dashboard" ? (
+        <ModNavigationBar onSignOut={() => setShowSignOutPopup(true)} />
+      ) : (
+        location.pathname !== "/" && location.pathname !== "/login" && location.pathname !== "/sign-up" && (
+          <NavigationBar onSignOut={() => setShowSignOutPopup(true)} hasNewNotifications={hasNewNotifications} onNotifications={() => setShowNotifications(true)} />
+        )
       )}
 
       <Routes>
@@ -54,7 +58,24 @@ function App() {
         <Route path="login" element={<LoginPage />} />
         <Route path="sign-up" element={<SignUpPage />} />
         <Route path="profile" element={<ProfilePage />} />
-        <Route path="mod-dashboard" element={<ModDashboardPage />} />
+        <Route path="mod-dashboard" element={
+          localStorage.getItem('token') && localStorage.getItem('userType') === 'admin' ? 
+            <ModDashboardPage /> : 
+            <div style={{ 
+              display: 'flex', 
+              flexDirection: 'column',
+              justifyContent: 'center', 
+              alignItems: 'center', 
+              height: '100vh', 
+              fontSize: '24px', 
+              color: '#ff4d4d',
+              textAlign: 'center'
+            }}>
+              <h1>Unauthorized Access</h1>
+              <p>You don't have permission to view this page.</p>
+              <p>Please <Link to="/login" style={{ color: '#007bff', textDecoration: 'underline' }}>login</Link> with the appropriate account</p>
+            </div>
+        } />
         <Route path="challenges" element={<ChallengesPage />} />
       </Routes>
 

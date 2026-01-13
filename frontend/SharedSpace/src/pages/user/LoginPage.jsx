@@ -35,7 +35,12 @@ export function LoginPage() {
         localStorage.setItem('email', data.email);
         localStorage.setItem('userType', data.userType);
 
-        navigate('/home');  // Redirects to home page.
+        // Redirect based on user type
+        if (data.userType === 'admin') {
+          navigate('/mod-dashboard');
+        } else {
+          navigate('/home');
+        }
       } else {
         setError(data.error || 'Login failed. Please check your credentials.');
       }
