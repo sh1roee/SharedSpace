@@ -24,7 +24,7 @@ const createChallenge = async (req, res) => {
       'challenge_alert',
       'New Challenge Alert!',
       `A new challenge "${title}" has just started. Show us your best work!`,
-      createdChallenge._id // The relatedId for deep-linking
+      createdChallenge._id 
     );
 
     res.status(201).json(createdChallenge);

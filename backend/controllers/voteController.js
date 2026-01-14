@@ -72,7 +72,12 @@ const submitVote = async (req, res) => {
     await newVote.save();
 
     // Increment the vote counter of the artwork
-    await Artwork.findByIdAndUpdate(artworkId, { $inc: { votes: 1 } });
+    await Artwork.findByIdAndUpdate(artworkId, { 
+      $inc: { 
+        votes: 1, 
+        totalScore: calculatedScore
+      } 
+    });
 
     res.status(201).json({ message: 'Vote submitted successfully!', vote: newVote });
   } catch (error) {
