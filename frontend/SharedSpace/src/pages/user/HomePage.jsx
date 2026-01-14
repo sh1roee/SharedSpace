@@ -207,33 +207,39 @@ export function HomePage() {
                     authorImg={activeArt?.authorImg || activeArt?.ownerID?.profilePicture}
                 />
 
-                <h1 className='worksText'>Your Recent Works</h1>
                 {loadingArtworks ? (
-                    <div className='art-grid'>
-                        <p style={{ textAlign: 'center', color: '#5C5A7B', fontSize: '1.2rem', gridColumn: '1 / -1' }}>
-                            Loading your artworks...
-                        </p>
-                    </div>
+                    <>
+                        <h1 className='worksText'>Your Recent Works</h1>
+                        <div className='art-grid'>
+                            <p style={{ textAlign: 'center', color: '#5C5A7B', fontSize: '1.2rem', gridColumn: '1 / -1' }}>
+                                Loading your artworks...
+                            </p>
+                        </div>
+                    </>
                 ) : artWorks.length === 0 ? (
-                    <div className='no-artworks-container'>
-                        <h2 className='no-artworks-title'>Share Your Art with the World!</h2>
-                        <p className='no-artworks-message'>
+                    <div className='works-text-area'>
+                        <h1 className='worksText2'>Share Your Art with the World!</h1>
+                        <p className='works-fallback-message'>
                             You haven't shared any artworks yet. Start your creative journey today and inspire others with your art!
                         </p>
-                        <BorderedButton
-                            message='Share Your First Artwork'
-                            size='pink'
+                        <BorderlessButton
                             onClick={() => setShowSharePopup(true)}
-                        />
+                            message='Share Your First Artwork'
+                            type='darkbody'
+                            className='friendsButton'>
+                        </BorderlessButton>
                     </div>
                 ) : (
-                    <div className='art-grid'>
-                        {artWorks.map((art, index) => (
-                            <div key={index} className='art-card' onClick={() => setActiveArt(art)}>
-                                <img src={art.img} alt={art.description} className='art-image'></img>
-                            </div>
-                        ))}
-                    </div>
+                    <>
+                        <h1 className='worksText'>Your Recent Works</h1>
+                        <div className='art-grid'>
+                            {artWorks.map((art, index) => (
+                                <div key={index} className='art-card' onClick={() => setActiveArt(art)}>
+                                    <img src={art.img} alt={art.description} className='art-image'></img>
+                                </div>
+                            ))}
+                        </div>
+                    </>
                 )}
             </div>
 
