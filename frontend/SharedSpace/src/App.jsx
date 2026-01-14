@@ -31,7 +31,7 @@ function App() {
       if (!token) return;
 
       try {
-        const response = await fetch('http://localhost:3000/api/notifications'  , {
+        const response = await fetch('http://localhost:3000/api/notifications', {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         const data = await response.json();
@@ -59,13 +59,13 @@ function App() {
         <ModNavigationBar onSignOut={() => setShowSignOutPopup(true)} />
       ) : (
         location.pathname !== "/" && location.pathname !== "/login" && location.pathname !== "/sign-up" && (
-          <NavigationBar 
-            onSignOut={() => setShowSignOutPopup(true)} 
-            hasNewNotifications={hasNewNotifications} 
+          <NavigationBar
+            onSignOut={() => setShowSignOutPopup(true)}
+            hasNewNotifications={hasNewNotifications}
             onNotifications={() => {
               setShowNotifications(true);
               setHasNewNotifications(false);
-            }} 
+            }}
           />
         )
       )}
@@ -95,15 +95,15 @@ function App() {
         <Route path="sign-up" element={<SignUpPage />} />
         <Route path="profile" element={<ProfilePage />} />
         <Route path="mod-dashboard" element={
-          localStorage.getItem('token') && localStorage.getItem('userType') === 'admin' ? 
-            <ModDashboardPage /> : 
-            <div style={{ 
-              display: 'flex', 
+          localStorage.getItem('token') && localStorage.getItem('userType') === 'admin' ?
+            <ModDashboardPage /> :
+            <div style={{
+              display: 'flex',
               flexDirection: 'column',
-              justifyContent: 'center', 
-              alignItems: 'center', 
-              height: '100vh', 
-              fontSize: '24px', 
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: '100vh',
+              fontSize: '24px',
               color: '#ff4d4d',
               textAlign: 'center'
             }}>
@@ -119,6 +119,10 @@ function App() {
         <SignOutPopup
           onClose={() => setShowSignOutPopup(false)}
           onLogout={() => {
+            localStorage.removeItem('token');
+            localStorage.removeItem('username');
+            localStorage.removeItem('email');
+            localStorage.removeItem('userType');
             setShowSignOutPopup(false);
             setShowNotifications(false);
           }} />
