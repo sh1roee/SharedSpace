@@ -46,7 +46,7 @@ export function ArtPopup({ trigger, setTrigger, img, date, desc, author, authorI
                             <img
                                 src={img}
                                 alt="Artwork"
-                                style={{ transform: `scale(${zoom / 100})` }}
+                                style={{ width: `${zoom}%` }}
                             />
                             {author && (
                                 <div className="watermark">
