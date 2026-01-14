@@ -102,11 +102,11 @@ export function FriendsSpacePage() {
             <ArtPopup
                 trigger={selectedArt != null}
                 setTrigger={() => setSelectedArt(null)}
-                img={selectedArt?.imageURL}
-                date={selectedArt?.uploadDate}
-                desc={selectedArt?.description}
-                author={selectedArt?.ownerID?.username}
-                authorImg={selectedArt?.ownerID?.profilePicture}
+                img={selectedArt?.imageURL || selectedArt?.img}
+                date={selectedArt?.uploadDate || selectedArt?.date}
+                desc={selectedArt?.description || selectedArt?.title}
+                author={selectedArt?.ownerID?.username || selectedArt?.author}
+                authorImg={selectedArt?.ownerID?.profilePicture || selectedArt?.authorImg}
             />
             {loadingFriendsArtworks ? (
                 <div className='fs-content-wrapper'>

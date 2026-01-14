@@ -1,4 +1,5 @@
 import Artwork from "../models/artworkModel.js";
+import User from "../models/userModel.js";
 import mongoose from 'mongoose';
 import { updateStreak } from "./userController.js";
 import { awardStreakBadges } from "../utils/badgeHelper.js";
@@ -17,7 +18,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 const findAllArtworks = async (req, res, next) => {
     try {
-        const artworks = await Artwork.find();
+        const artworks = await Artwork.find().populate('ownerID', 'username profilePicture');
         res.send(artworks);
     } catch (err) {
         console.error('Error fetching artworks:', err);
@@ -29,7 +30,7 @@ const findAllArtworks = async (req, res, next) => {
 const findMyArtworks = async (req, res, next) => {
     try {
         const userId = req.user.userId;
-        const artworks = await Artwork.find({ ownerID: userId });
+        const artworks = await Artwork.find({ ownerID: userId }).populate('ownerID', 'username profilePicture');
         res.send(artworks);
     } catch (err) {
         console.error('Error fetching my artworks:', err);
@@ -176,7 +177,6 @@ const getFriendsArtworks = async (req, res, next) => {
         const userId = req.user.userId;
         console.log('getFriendsArtworks: Fetching for user:', userId);
 
-        const User = (await import('../models/userModel.js')).default;
         const user = await User.findById(userId).select('friends');
 
         if (!user) {

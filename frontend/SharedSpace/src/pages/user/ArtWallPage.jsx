@@ -19,25 +19,26 @@ import SundayReal from '../../assets/arts/sunday.jpg';
 import CherryBlossom from '../../assets/arts/cherryblossom.jpg';
 
 export function ArtWallPage() {
-  const [artWorks, setArtWorks] = useState([]);
-  const [activeArt, setActiveArt] = useState(null);
+    const [artWorks, setArtWorks] = useState([]);
+    const [activeArt, setActiveArt] = useState(null);
 
-   useEffect(() => {
-    const fetchArtWorks = async () => {
-      try {
-        const res = await fetch("http://localhost:3000/api/artworks/all", {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-        });
-        if (!res.ok) throw new Error("Server Error");
-        const data = await res.json();
-        setArtWorks(data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetchArtWorks();
-  }, []);
+    useEffect(() => {
+        const fetchArtWorks = async () => {
+            try {
+                const res = await fetch("http://localhost:3000/api/artworks/all", {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json" },
+                });
+                if (!res.ok) throw new Error("Server Error");
+                const data = await res.json();
+                console.log('ArtWallPage: Fetched artworks:', data);
+                setArtWorks(data);
+            } catch (err) {
+                console.error('ArtWallPage: Fetch error:', err);
+            }
+        };
+        fetchArtWorks();
+    }, []);
 
     useEffect(() => {
         const resizeGridItem = (item, img) => {
@@ -84,7 +85,9 @@ export function ArtWallPage() {
                 img={activeArt?.imageURL}
                 date={activeArt?.uploadDate}
                 desc={activeArt?.description}
-            />  
+                author={activeArt?.ownerID?.username}
+                authorImg={activeArt?.ownerID?.profilePicture}
+            />
             <h1 className='aw-title'>Art Wall</h1>
             <p className='aw-subtitle'>See what the community's been creating lately 🎨</p>
             <div className='artWallWrapper'>

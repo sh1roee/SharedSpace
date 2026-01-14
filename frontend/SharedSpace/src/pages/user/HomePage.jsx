@@ -200,9 +200,11 @@ export function HomePage() {
                 <ArtPopup
                     trigger={activeArt != null}
                     setTrigger={() => setActiveArt(null)}
-                    img={activeArt?.img}
-                    date={activeArt?.date}
-                    desc={activeArt?.description}
+                    img={activeArt?.img || activeArt?.imageURL}
+                    date={activeArt?.date || activeArt?.uploadDate}
+                    desc={activeArt?.description || activeArt?.title}
+                    author={activeArt?.author || activeArt?.ownerID?.username}
+                    authorImg={activeArt?.authorImg || activeArt?.ownerID?.profilePicture}
                 />
 
                 <h1 className='worksText'>Your Recent Works</h1>
@@ -239,9 +241,11 @@ export function HomePage() {
                 <ArtPopup
                     trigger={activeArt != null}
                     setTrigger={() => setActiveArt(null)}
-                    img={activeArt?.img}
-                    date={activeArt?.date}
-                    desc={activeArt?.description}
+                    img={activeArt?.img || activeArt?.imageURL}
+                    date={activeArt?.date || activeArt?.uploadDate}
+                    desc={activeArt?.description || activeArt?.title}
+                    author={activeArt?.author || activeArt?.ownerID?.username}
+                    authorImg={activeArt?.authorImg || activeArt?.ownerID?.profilePicture}
                 />
 
                 {loadingFriendsArtworks ? (
