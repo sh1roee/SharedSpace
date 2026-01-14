@@ -18,6 +18,7 @@ import { ChallengesPage } from './pages/user/ChallengesPage.jsx'
 import { IntroPage } from './pages/user/IntroPage.jsx'
 import { NotificationPopup } from './components/NotificationPopup'
 import { SignOutPopup } from './components/SignOutPopup'
+import { Toaster } from 'react-hot-toast';
 
 function App() {
   const location = useLocation()
@@ -131,6 +132,31 @@ function App() {
 
       {showNotifications && (<NotificationPopup onClose={() => setShowNotifications(false)} />)}
 
+      <Toaster
+        position="bottom-right"
+        reverseOrder={false}
+        toastOptions={{
+          style: {
+            background: '#5E5B7C',
+            color: '#fff',
+            fontFamily: 'Poppins, sans-serif',
+            borderRadius: '12px',
+            boxShadow: '0 8px 10px rgba(0, 0, 0, 0.25)',
+          },
+          success: {
+            iconTheme: {
+              primary: '#FFE2E2',
+              secondary: '#5E5B7C',
+            },
+          },
+          error: {
+            iconTheme: {
+              primary: '#CD6D6D',
+              secondary: '#fff',
+            },
+          },
+        }}
+      />
     </>
   )
 }

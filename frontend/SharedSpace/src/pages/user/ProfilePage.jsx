@@ -5,6 +5,8 @@ import { BorderedButton } from '../../components/BorderedButton';
 import { EditProfilePopup } from '../../components/EditProfilePopup';
 import { FriendsPopup } from '../../components/FriendsPopup';
 import { SharePopup } from '../../components/SharePopup';
+import { DeleteConfirmPopup } from '../../components/DeleteConfirmPopup';
+import toast from 'react-hot-toast';
 import SampleImg from '../../assets/arts/ukiyo.jpg';
 import SampleImg2 from '../../assets/arts/almondtree.jpg';
 import './ProfilePage.css';
@@ -139,6 +141,7 @@ export function ProfilePage() {
   // SELECTION & DELETE LOGIC
   const [isSelectionMode, setIsSelectionMode] = useState(false);
   const [selectedPosts, setSelectedPosts] = useState([]);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   const toggleSelectionMode = () => {
     setIsSelectionMode(!isSelectionMode);
@@ -153,15 +156,15 @@ export function ProfilePage() {
     }
   };
 
-  const handleDeleteSelected = async () => {
+  const handleDeleteSelected = () => {
     if (selectedPosts.length === 0) return;
+    setShowDeleteConfirm(true);
+  };
 
-    if (!window.confirm(`Are you sure you want to delete ${selectedPosts.length} post(s)?`)) {
-      return;
-    }
-
-    const token = localStorage.getItem('token');
-    try {
+  const confirmDelete = async () => {
+    setShowDeleteConfirm(false);
+    const deletePromise = (async () => {
+      const token = localStorage.getItem('token');
       const response = await fetch('http://localhost:3000/api/artworks/delete-multiple', {
         method: 'POST',
         headers: {
@@ -171,21 +174,26 @@ export function ProfilePage() {
         body: JSON.stringify({ ids: selectedPosts }),
       });
 
-      if (response.ok) {
-        // Refresh posts
-        setUser(prev => ({
-          ...prev,
-          posts: prev.posts.filter(post => !selectedPosts.includes(post.id)),
-        }));
-        setIsSelectionMode(false);
-        setSelectedPosts([]);
-      } else {
+      if (!response.ok) {
         const errorData = await response.json();
-        alert(`Failed to delete posts: ${errorData.message || response.statusText}`);
+        throw new Error(errorData.message || response.statusText);
       }
-    } catch (error) {
-      console.error('Error deleting posts:', error);
-    }
+
+      // Refresh posts
+      setUser(prev => ({
+        ...prev,
+        posts: prev.posts.filter(post => !selectedPosts.includes(post.id)),
+      }));
+      setIsSelectionMode(false);
+      setSelectedPosts([]);
+      return response;
+    })();
+
+    toast.promise(deletePromise, {
+      loading: 'Deleting posts...',
+      success: 'Posts deleted successfully!',
+      error: (err) => `Failed to delete: ${err.message}`,
+    });
   };
 
   // For friend request notifications to navigate directly to friends popup
@@ -265,6 +273,13 @@ export function ProfilePage() {
       <SharePopup
         trigger={showSharePopup}
         setTrigger={setShowSharePopup}
+      />
+
+      <DeleteConfirmPopup
+        isOpen={showDeleteConfirm}
+        onClose={() => setShowDeleteConfirm(false)}
+        onConfirm={confirmDelete}
+        count={selectedPosts.length}
       />
 
       {/* HEADER SECTION */}

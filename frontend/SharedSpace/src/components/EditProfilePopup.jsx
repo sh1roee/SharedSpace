@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { BorderedButton } from './BorderedButton';
+import toast from 'react-hot-toast';
 import './EditProfilePopup.css';
 
- /**
- * EditProfilePopup Component
- * 
- * A modal form that allows users to update their profile information.
- * 
- * isOpen - Controls visibility of the popup
- * onClose - Callback to close the popup
- * user - Current user data to populate the form
- * onSave - Callback function to save updated profile data
- */
+/**
+* EditProfilePopup Component
+* 
+* A modal form that allows users to update their profile information.
+* 
+* isOpen - Controls visibility of the popup
+* onClose - Callback to close the popup
+* user - Current user data to populate the form
+* onSave - Callback function to save updated profile data
+*/
 export function EditProfilePopup({ isOpen, onClose, user, onSave }) {
     const [formData, setFormData] = useState({
         username: '',
@@ -50,7 +51,7 @@ export function EditProfilePopup({ isOpen, onClose, user, onSave }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (formData.password !== formData.confirmPassword) {
-            alert("Passwords do not match!");
+            toast.error("Passwords do not match!");
             return;
         }
 
@@ -75,16 +76,16 @@ export function EditProfilePopup({ isOpen, onClose, user, onSave }) {
                     const uploadData = await uploadResponse.json();
                     profilePictureURL = uploadData.imageURL;
                 } else {
-                    alert('Failed to upload profile picture');
+                    toast.error('Failed to upload profile picture');
                     return;
                 }
             } catch (error) {
                 console.error('Upload error:', error);
-                alert('Error uploading profile picture');
+                toast.error('Error uploading profile picture');
                 return;
             }
         }
-        
+
         // Prepare data object, only including password if it was changed
         const dataToSave = {
             username: formData.username,
@@ -155,7 +156,7 @@ export function EditProfilePopup({ isOpen, onClose, user, onSave }) {
                             />
                         </div>
                         <div className="edit-popup-buttons">
-                            <BorderedButton message="Save Changes" size="pink" type="submit" onClick={() => {}} />
+                            <BorderedButton message="Save Changes" size="pink" type="submit" onClick={() => { }} />
                             <BorderedButton message="Cancel" size="pink" onClick={onClose} />
                         </div>
                     </form>
