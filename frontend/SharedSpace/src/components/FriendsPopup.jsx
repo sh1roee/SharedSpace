@@ -15,6 +15,7 @@ function authHeaders() {
     };
 };
 
+// To fetch user's friends.
 async function getFriends() {
     const res = await fetch(`${BASE_URL}/api/users/friends`, {
         headers: authHeaders()
@@ -23,6 +24,7 @@ async function getFriends() {
     return res.json();
 };
 
+// To fetch user's pending friend requests.
 async function getPendingRequests() {
     const res = await fetch(`${BASE_URL}/api/users/friends/pending`, {
         headers: authHeaders()
@@ -31,6 +33,7 @@ async function getPendingRequests() {
     return res.json();
 };
 
+// To send friend request to user.
 async function sendFriendRequest(friendId) {
     const res = await fetch(`${BASE_URL}/api/users/friends/request`, {
         method: 'POST',
@@ -41,6 +44,7 @@ async function sendFriendRequest(friendId) {
     return res.json();
 };
 
+// To accept friend request.
 async function acceptRequest(friendId) {
     const res = await fetch(`${BASE_URL}/api/users/friends/accept`, {
         method: 'POST',
@@ -51,6 +55,7 @@ async function acceptRequest(friendId) {
     return res.json();
 };
 
+// To decline friend request.
 async function declineRequest(friendId) {
     const res = await fetch(`${BASE_URL}/api/users/friends/decline`, {
         method: 'POST',
@@ -61,6 +66,7 @@ async function declineRequest(friendId) {
     return res.json();
 };
 
+// To remove friend.
 async function removeFriend(friendId) {
     const res = await fetch(`${BASE_URL}/api/users/friends/remove`, {
         method: 'DELETE',
@@ -71,6 +77,7 @@ async function removeFriend(friendId) {
     return res.json();
 };
 
+// To get outgoing friend requests.
 async function getOutgoingRequests() {
     const res = await fetch(`${BASE_URL}/api/users/friends/outgoing`, {
         headers: authHeaders()
@@ -79,6 +86,7 @@ async function getOutgoingRequests() {
     return res.json();
 };
 
+// To cancel outgoing friend requests.
 async function cancelOutgoingRequest(requestId) {
     const res = await fetch(`${BASE_URL}/api/users/friends/cancel`, {
         method: 'DELETE',
@@ -100,6 +108,7 @@ export function FriendsPopup({ isOpen, onClose }) {
     const [friendRequests, setFriendRequests] = useState([])                       // State for friend requests.
     const [outgoingRequests, setOutgoingRequests] = useState([])                   // State for outgoing friend requests.
 
+    // Handles user search input.
     const handleSearch = async (e) => {
         e.preventDefault();
 
@@ -118,6 +127,7 @@ export function FriendsPopup({ isOpen, onClose }) {
         }
     };
 
+    // Load friends list, outgoing requests, and requests to accept.
     useEffect(() => {
         if (!isOpen) return;
 
