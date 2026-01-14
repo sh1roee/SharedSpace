@@ -42,10 +42,10 @@ const userSchema = new mongoose.Schema({
   lastActivityDate: {
     type: Date
   },
-  badges: {
-    type: [String],
-    default: []
-  },
+  badges: [{ 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'Badge'
+  }],
   friends: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "User"

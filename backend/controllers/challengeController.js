@@ -3,6 +3,7 @@ import Artwork from '../models/artworkModel.js';
 import mongoose from 'mongoose';
 import { updateStreak } from './userController.js'
 import { broadcastNotification } from '../utils/notificationHelper.js';
+import { awardStreakBadges } from '../utils/badgeHelper.js';
 
 // create a challenge (FOR ADMINS ONLY) 
 const createChallenge = async (req, res) => {
@@ -86,7 +87,11 @@ const submitToChallenge = async (req, res) => {
 
     const savedArtwork = await newArtwork.save();
 
-    await updateStreak(ownerID); //trigger streak update
+    const updatedUser = await updateStreak(ownerID); //trigger streak update
+
+    if (updatedUser) {
+      await awardStreakBadges(ownerID, updatedUser.streakCount);
+    }
 
     res.status(201).json(savedArtwork);
   } catch (error) {

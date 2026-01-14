@@ -3,7 +3,7 @@ import { registerUser, loginUser, getRegisteredUsers, getUserById,
     sendFriendRequest, acceptFriendRequest, declineFriendRequest, removeFriend, 
     getFriendsList, getPendingRequests, findByUserEmail, findByUsername, 
     deleteUser, updateUser, findCurrentUser, getOutgoingRequests, 
-    cancelOutgoingRequest, streakCheckIn
+    cancelOutgoingRequest, streakCheckIn, getUserAchievements
 } from '../controllers/userController.js'; 
 import { isAdmin, verifyToken } from '../middleware/auth.js'; 
 
@@ -31,5 +31,6 @@ router.get('/friends/pending', verifyToken, getPendingRequests);
 router.get('/friends/outgoing', verifyToken, getOutgoingRequests);
 
 router.get('/:id', verifyToken, getUserById);
+router.get('/:id/achievements', verifyToken, getUserAchievements);
 
 export default router;

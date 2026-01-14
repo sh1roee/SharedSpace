@@ -405,10 +405,10 @@ const getPendingRequests = async (req, res) => {
     }
 };
 
-export const updateStreak = async (userId) => {
+const updateStreak = async (userId) => {
     try {
         const user = await User.findById(userId);
-        if (!user) return;
+        if (!user) return null;
 
         const now = new Date();
         const lastActivity = user.lastActivityDate;
@@ -418,7 +418,7 @@ export const updateStreak = async (userId) => {
             if (now.toDateString() === lastActivity.toDateString()) {
                 user.lastActivityDate = now;
                 await user.save();
-                return;
+                return user; 
             }
 
             // Calculate difference in days
@@ -438,12 +438,13 @@ export const updateStreak = async (userId) => {
 
         user.lastActivityDate = now;
         await user.save();
+        return user; 
     } catch (err) {
         console.error("Streak Update Error:", err);
     }
 };
 
-export const streakCheckIn = async (req, res) => {
+const streakCheckIn = async (req, res) => {
     try {
         await updateStreak(req.user.userId);
 
@@ -483,8 +484,22 @@ const cancelOutgoingRequest = async (req, res) => {
     }
 };
 
+const getUserAchievements = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id)
+      .populate('badges'); //get full badge details in json
+
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    res.status(200).json(user.badges);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching achievements" });
+  }
+};
+
 export {
     findByUserEmail, deleteUser, updateUser, findByUsername, findCurrentUser, registerUser, 
     loginUser, getRegisteredUsers, getUserById, sendFriendRequest, acceptFriendRequest, declineFriendRequest, 
-    removeFriend, getFriendsList, getPendingRequests, getOutgoingRequests, cancelOutgoingRequest
+    removeFriend, getFriendsList, getPendingRequests, getOutgoingRequests, cancelOutgoingRequest, 
+    updateStreak, streakCheckIn, getUserAchievements
 };
