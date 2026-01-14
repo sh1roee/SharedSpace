@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { BorderedButton } from '../../components/BorderedButton'
 import SharedSpaceLogo from '../../assets/SharedSpaceLogo.svg'
 import API_BASE_URL from '../../apiConfig'
+import { toast } from 'react-hot-toast'
 
 // ____________________________________________________________________________________________________
 
@@ -38,7 +39,8 @@ export function SignUpPage() {
       const data = await response.json();
 
       if (response.ok) {
-        navigate('/home');  // Redirects to login page.
+        toast.success('Registration successful! Please log in.');
+        navigate('/login');
       } else {
         setError(data.error || 'Registration failed. Try a different email/username.');
       }
