@@ -21,13 +21,14 @@ export function ChallengesPage() {
     const [showChallengesPopup, setShowChallengesPopup] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const [votingArtworks, setVotingArtworks] = useState([]);
+    const [challengeFriends, setChallengeFriends] = useState([]);
 
     // Fetch active challenges
     useEffect(() => {
         const fetchChallenges = async () => {
             const token = localStorage.getItem('token');
             try {
-                const response = await fetch(`${API_BASE_URL}/api/challenges/all`, {
+                const response = await fetch(`${API_BASE_URL}/api/challenges/active`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 if (response.ok) {
@@ -36,7 +37,7 @@ export function ChallengesPage() {
                     setChallenges(data);
 
                     const now = new Date();
-                    // find active challenges for default selection
+                    // Find active challenges for default selection
                     const active = data.filter(c => new Date(c.startDate) <= now && new Date(c.endDate) >= now);
                     
                     if (active.length > 0) {
@@ -76,6 +77,28 @@ export function ChallengesPage() {
         };
         fetchEntries();
     }, [selectedChallengeId]);
+
+    useEffect(() => {
+    if (!selectedChallengeId) return;
+
+    const fetchChallengeFriends = async () => {
+        const token = localStorage.getItem('token');
+        try {
+            // Assuming you have an endpoint that returns friends who joined this challenge
+            const response = await fetch(`${API_BASE_URL}/api/challenges/friends/${selectedChallengeId}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (response.ok) {
+                const data = await response.json();
+                setChallengeFriends(data); // Expecting an array of user objects: [{_id, profilePicture, username}]
+            }
+        } catch (error) {
+            console.error("Error fetching challenge friends:", error);
+            setChallengeFriends([]);
+        }
+    };
+    fetchChallengeFriends();
+}, [selectedChallengeId]);
 
     const currentChallenge = challenges.find(c => c._id === selectedChallengeId);
 
@@ -207,12 +230,28 @@ export function ChallengesPage() {
 
             {/* Friends Challenge Area */}
             <div className="friends-challenge-area">
-                <h2 className="friends-challenge-text">Your friends have joined the challenge!</h2>
-                <BorderlessButton
-                    to="/friends-space"
-                    message="Go to Friends Space"
-                    type="lightbody"
-                />
+                {challengeFriends.length > 0 ? (
+                    <>
+                        <h2 className="friends-challenge-text">Your friends have joined the challenge!</h2>
+                        <div className="friends-avatars-container">
+                            {challengeFriends.map((friend) => (
+                                <div key={friend._id} className="friend-avatar-wrapper">
+                                    <img 
+                                        src={friend.profilePicture || '/defaultAvatar.png'} 
+                                        alt={friend.username} 
+                                        className="friend-avatar-img"
+                                        title={friend.username} // Shows name on hover
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        <h2 className="friends-challenge-text">Be the first of your friends to join this challenge!</h2>
+                        <p className="friends-challenge-subtext">Show them how it's done!</p>
+                    </>
+                )}
             </div>
 
             {/* Voting Area */}
