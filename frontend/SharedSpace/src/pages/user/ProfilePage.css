@@ -260,3 +260,7 @@
   border-radius: 50%;
   object-fit: cover;
 }
+
+.friends-list-username {
+  margin-left: 1rem;
+}

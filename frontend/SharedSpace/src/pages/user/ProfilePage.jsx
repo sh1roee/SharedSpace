@@ -27,24 +27,8 @@ export function ProfilePage() {
     username: "",
     bio: "",
     streakCount: 0,
-    avatar: SampleImg,
     profilePicture: "",
-    posts: [
-      { img: SampleImg },
-      { img: SampleImg2 },
-      { img: SampleImg },
-      { img: SampleImg2 },
-      { img: SampleImg },
-      { img: SampleImg2 },
-      { img: SampleImg },
-      { img: SampleImg2 },
-      { img: SampleImg },
-      { img: SampleImg2 },
-      { img: SampleImg },
-      { img: SampleImg2 },
-      { img: SampleImg },
-      { img: SampleImg2 },
-    ],
+    posts: [],
     achievements: [
       { id: 1, icon: "🎨" },
       { id: 2, icon: "🔥" },
@@ -53,15 +37,7 @@ export function ProfilePage() {
       { id: 5, icon: "⭐" },
       { id: 6, icon: "🚀" },
     ],
-    friends: [
-      { id: 1, name: "Angus", avatar: SampleImg2 },
-      { id: 2, name: "Francis", avatar: SampleImg },
-      { id: 3, name: "James", avatar: SampleImg2 },
-      { id: 4, name: "Nathan", avatar: SampleImg },
-      { id: 5, name: "Shamel", avatar: SampleImg2 },
-      { id: 3, name: "Vince", avatar: SampleImg2 },
-      { id: 4, name: "Yvan", avatar: SampleImg },
-    ]
+    friends: []
   });
 
   useEffect(() => {
@@ -70,14 +46,24 @@ export function ProfilePage() {
       if (!token) return;
 
       try {
-        // Fetch user info
-        const userResponse = await fetch('http://localhost:3000/api/users/me', {
+        const meResponse = await fetch('http://localhost:3000/api/users/me', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+        if (!meResponse.ok) throw new Error("Failed to fetch /me");
+        const meData = await meResponse.json();
+        const userId = meData._id;
+
+        const userResponse = await fetch(`http://localhost:3000/api/users/${userId}`, {
           headers: {
             'Authorization': `Bearer ${token}`,
           },
         });
         if (userResponse.ok) {
           const userData = await userResponse.json();
+          console.log("Fetched user data:", userData);
+
           setUser(prev => ({
             ...prev,
             username: userData.username,
@@ -85,10 +71,10 @@ export function ProfilePage() {
             streakCount: userData.streakCount,
             profilePicture: userData.profilePicture,
             avatar: userData.profilePicture || SampleImg,
+            friends: userData.friends || [],
           }));
         }
 
-        // Fetch user's artworks
         const artworksResponse = await fetch('http://localhost:3000/api/artworks/my', {
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -341,13 +327,13 @@ export function ProfilePage() {
 
               <div className="friends-list">
                 {user.friends.map(friend => (
-                  <div key={friend.id} className="friend-item">
+                  <div key={friend._id} className="friend-item">
                     <img
-                      src={friend.avatar}
-                      alt={friend.name}
+                      src={friend.profilePicture || "/defaultAvatar.png"}
+                      alt={friend.username}
                       className="friend-avatar"
                     />
-                    <span>{friend.name}</span>
+                    <span className="friends-list-username">{friend.username}</span>
                   </div>
                 ))}
               </div>

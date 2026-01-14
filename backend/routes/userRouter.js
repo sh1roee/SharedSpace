@@ -1,9 +1,9 @@
 import express from 'express';
-import { registerUser, loginUser, getRegisteredUsers, 
-    sendFriendRequest, acceptFriendRequest, declineFriendRequest, 
-    removeFriend, getFriendsList, getPendingRequests,
-    findByUserEmail, findByUsername, deleteUser, updateUser, findCurrentUser,
-    getOutgoingRequests, cancelOutgoingRequest, streakCheckIn
+import { registerUser, loginUser, getRegisteredUsers, getUserById,
+    sendFriendRequest, acceptFriendRequest, declineFriendRequest, removeFriend, 
+    getFriendsList, getPendingRequests, findByUserEmail, findByUsername, 
+    deleteUser, updateUser, findCurrentUser, getOutgoingRequests, 
+    cancelOutgoingRequest, streakCheckIn
 } from '../controllers/userController.js'; 
 import { isAdmin, verifyToken } from '../middleware/auth.js'; 
 
@@ -29,5 +29,7 @@ router.delete('/friends/cancel', verifyToken, cancelOutgoingRequest);
 router.get('/friends', verifyToken, getFriendsList);
 router.get('/friends/pending', verifyToken, getPendingRequests);
 router.get('/friends/outgoing', verifyToken, getOutgoingRequests);
+
+router.get('/:id', verifyToken, getUserById);
 
 export default router;

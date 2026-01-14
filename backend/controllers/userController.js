@@ -223,6 +223,18 @@ const getRegisteredUsers = async (req, res) => {
         res.status(500).json({ error: 'Unable to get users.' });
     }
 };
+ // gets users by id
+const getUserById = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id)
+        .populate("friends", "username profilePicture");
+
+        res.json(user);
+    } catch (err) {
+        console.error("Error - in getUserById:", err);
+        res.status(500).json({ error: "Server error" });
+    }
+};
 
 // Send a friend request
 const sendFriendRequest = async (req, res) => {
@@ -473,6 +485,6 @@ const cancelOutgoingRequest = async (req, res) => {
 
 export {
     findByUserEmail, deleteUser, updateUser, findByUsername, findCurrentUser, registerUser, 
-    loginUser, getRegisteredUsers, sendFriendRequest, acceptFriendRequest, declineFriendRequest, 
+    loginUser, getRegisteredUsers, getUserById, sendFriendRequest, acceptFriendRequest, declineFriendRequest, 
     removeFriend, getFriendsList, getPendingRequests, getOutgoingRequests, cancelOutgoingRequest
 };
