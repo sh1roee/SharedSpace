@@ -251,6 +251,30 @@
     color: #8785A2;
 }
 
+.upload-progress-message {
+    background-color: #8785A2;
+    color: #FAF3EB;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 1rem;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
+}
+
 .popup-actions {
     display: flex;
     justify-content: flex-end;

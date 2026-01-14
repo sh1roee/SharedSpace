@@ -10,17 +10,21 @@ export function SharePopup({ trigger, setTrigger }) {
     const [isPublic, setIsPublic] = useState(true);
     const [description, setDescription] = useState('');
     const [isDragging, setIsDragging] = useState(false);
+    const [isUploading, setIsUploading] = useState(false);
+    const [uploadProgress, setUploadProgress] = useState('');
 
     if (!trigger) {
         return null;
     }
 
     const handleClose = () => {
+        if (isUploading) return; // Prevent closing during upload
         setTrigger(false);
         setFiles([]);
         setFileName('File Name 1');
         setDescription('');
         setIsPublic(true);
+        setUploadProgress('');
     };
 
     const handleSave = async (e) => {
@@ -29,8 +33,14 @@ export function SharePopup({ trigger, setTrigger }) {
         const token = localStorage.getItem('token');
         if (!token) return;
 
-        for (const file of files) {
+        setIsUploading(true);
+        const totalFiles = files.length;
+
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
             try {
+                setUploadProgress(`Uploading ${i + 1} of ${totalFiles}...`);
+
                 // Upload file
                 const formData = new FormData();
                 formData.append('file', file);
@@ -45,11 +55,14 @@ export function SharePopup({ trigger, setTrigger }) {
 
                 if (!uploadResponse.ok) {
                     console.error('Upload failed');
+                    setUploadProgress(`Failed to upload ${file.name}`);
                     continue;
                 }
 
                 const uploadData = await uploadResponse.json();
                 const imageURL = uploadData.imageURL;
+
+                setUploadProgress(`Saving ${i + 1} of ${totalFiles}...`);
 
                 // Create artwork
                 const createResponse = await fetch('http://localhost:3000/api/artworks/create/', {
@@ -72,10 +85,12 @@ export function SharePopup({ trigger, setTrigger }) {
                 }
             } catch (error) {
                 console.error('Error sharing file:', error);
+                setUploadProgress(`Error uploading ${file.name}`);
             }
         }
 
         // Update streak after sharing artwork
+        setUploadProgress('Finalizing...');
         try {
             await fetch('http://localhost:3000/api/users/streak', {
                 method: 'PUT',
@@ -85,6 +100,8 @@ export function SharePopup({ trigger, setTrigger }) {
             console.error('Error updating streak:', error);
         }
 
+        setIsUploading(false);
+        setUploadProgress('');
         handleClose();
         navigate('/home-posted');
     };
@@ -210,16 +227,22 @@ export function SharePopup({ trigger, setTrigger }) {
                             />
                         </div>
 
+                        {uploadProgress && (
+                            <div className="upload-progress-message">
+                                {uploadProgress}
+                            </div>
+                        )}
+
                         <div className="popup-actions">
                             <BorderedButton
-                                message='Save'
+                                message={isUploading ? 'Uploading...' : 'Save'}
                                 size='pink'
-                                onClick={handleSave}
+                                onClick={isUploading ? null : handleSave}
                             />
                             <BorderedButton
                                 message='Close'
                                 size='purple'
-                                onClick={handleClose}
+                                onClick={isUploading ? null : handleClose}
                             />
                         </div>
                     </div>

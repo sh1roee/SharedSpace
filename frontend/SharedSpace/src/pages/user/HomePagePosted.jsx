@@ -1,10 +1,12 @@
 import './HomePage.css'
 import { BorderedButton } from '../../components/BorderedButton.jsx'
 import { BorderlessButton } from '../../components/BorderlessButton.jsx';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ArtPopup } from '../../components/ArtPopup';
 import SampleImg from '../../assets/SharedSpaceLogo.svg'
 import SampleImg2 from '../../assets/react.svg'
+import LeaderboardPerson2 from '../../assets/LeaderboardPerson2.svg'
+import LeaderboardPerson1 from '../../assets/Leaderboard_Person1.svg'
 import PlaceDuTertre from '../../assets/arts/placedutertre.jpg'
 import Sunday from '../../assets/arts/sunday.jpg'
 import AugustRenoir from '../../assets/arts/augustrenoire.jpg'
@@ -20,12 +22,9 @@ import { StreakBadge } from '../../components/StreakBadge';
 import { SharePopup } from '../../components/SharePopup';
 
 export function HomePagePosted() {
-    const artWorks = [
-        { img: Sunday, date: "1/1/2026", description: "A Sunday Afternoon", author: "Nname" },
-        { img: AugustRenoir, date: "1/4/2026", description: "August Renoir", author: "Nname" },
-        { img: CafeNight, date: "1/6/2026", description: "Cafe Terrace at Night", author: "Cname" },
-        { img: WaterLilies, date: "1/4/2026", description: "Water Lilies", author: "Dname" },
-    ];
+    const [artWorks, setArtWorks] = useState([]);
+    const [loadingArtworks, setLoadingArtworks] = useState(true);
+    const [todaysPostedArt, setTodaysPostedArt] = useState(null);
 
     const artWallWorks = [
         { img: Almond, date: "1/3/2026", description: "Almond Tree" },
@@ -46,14 +45,6 @@ export function HomePagePosted() {
         { img: CafeNight, date: "1/4/2026", description: "Cafe Terrace at Night", author: "Artist" },
     ];
 
-    //hardcoded
-    const todaysPostedArt = {
-        img: Sakura,
-        date: "1/12/2026",
-        description: "Sakura Blossoms",
-        author: "You"
-    };
-
     const streakCount = 12; //hardcoded
 
     const leaderboardData = [
@@ -62,15 +53,8 @@ export function HomePagePosted() {
         { rank: 3, name: "User Three", points: 950, avatar: SampleImg },
     ];
 
-    //const [streakCount, setStreakCount] = useState(0); pag may backend na
-    // Fetch from API in useEffect
-
-    const challenges = [
-        { id: 1, name: "# 10-MinuteSketch" },
-        { id: 2, name: "# NoErasing" },
-        { id: 3, name: "# PixelArt" },
-        { id: 4, name: "# OneColor" },
-    ];
+    const [challenges, setChallenges] = useState([]);
+    const [loadingChallenges, setLoadingChallenges] = useState(true);
 
     const randomIndex = Math.floor(Math.random() * friends_artWorks.length)
     const friendArt = friends_artWorks[randomIndex]
@@ -78,21 +62,149 @@ export function HomePagePosted() {
     const [activeArt, setActiveArt] = useState(null);
     const [showSharePopup, setShowSharePopup] = useState(false);
 
+    useEffect(() => {
+        fetchChallenges();
+        fetchUserArtworks();
+    }, []);
+
+    const fetchUserArtworks = async () => {
+        try {
+            const token = localStorage.getItem('token');
+
+            console.log('HomePagePosted: Fetching user artworks...');
+            console.log('HomePagePosted: Token:', token ? 'Present' : 'Missing');
+
+            const response = await fetch('http://localhost:3000/api/artworks/my', {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+
+            console.log('HomePagePosted: Artworks response status:', response.status);
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log('HomePagePosted: User artworks data:', data);
+                console.log('HomePagePosted: Number of artworks:', data.length);
+
+                // Sort by upload date (newest first)
+                const sortedArtworks = data.sort((a, b) => new Date(b.uploadDate) - new Date(a.uploadDate));
+
+                // Set the latest artwork as today's posted art
+                if (sortedArtworks.length > 0) {
+                    setTodaysPostedArt({
+                        img: sortedArtworks[0].imageURL,
+                        date: new Date(sortedArtworks[0].uploadDate).toLocaleDateString(),
+                        description: sortedArtworks[0].title,
+                        author: "You"
+                    });
+                }
+
+                // Take first 4 for recent works
+                const recentWorks = sortedArtworks
+                    .slice(0, 4)
+                    .map(artwork => ({
+                        img: artwork.imageURL,
+                        date: new Date(artwork.uploadDate).toLocaleDateString(),
+                        description: artwork.title,
+                        author: "You"
+                    }));
+
+                console.log('HomePagePosted: Setting artworks to:', recentWorks);
+                setArtWorks(recentWorks);
+            } else {
+                const errorText = await response.text();
+                console.error('HomePagePosted: Failed to fetch artworks. Status:', response.status);
+                console.error('HomePagePosted: Error response:', errorText);
+                setArtWorks([]);
+            }
+        } catch (error) {
+            console.error('HomePagePosted: Error fetching user artworks:', error);
+            console.error('HomePagePosted: Error details:', error.message);
+            setArtWorks([]);
+        } finally {
+            console.log('HomePagePosted: Setting loadingArtworks to false');
+            setLoadingArtworks(false);
+        }
+    };
+
+    const fetchChallenges = async () => {
+        try {
+            const token = localStorage.getItem('token');
+
+            console.log('HomePagePosted: Fetching challenges...');
+            const response = await fetch('http://localhost:3000/api/challenges/all', {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+
+            console.log('HomePagePosted: Response status:', response.status);
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log('HomePagePosted: Challenges data:', data);
+                // Get the first 4 challenges
+                setChallenges(data.slice(0, 4).map(challenge => ({
+                    id: challenge._id,
+                    name: `# ${challenge.title}`
+                })));
+            } else {
+                const errorText = await response.text();
+                console.error('HomePagePosted: API Error:', errorText);
+                // Fallback to default challenges if fetch fails
+                setChallenges([
+                    { id: 1, name: "# 10-MinuteSketch" },
+                    { id: 2, name: "# NoErasing" },
+                    { id: 3, name: "# PixelArt" },
+                    { id: 4, name: "# OneColor" },
+                ]);
+            }
+        } catch (error) {
+            console.error('Error fetching challenges:', error);
+            // Fallback to default challenges
+            setChallenges([
+                { id: 1, name: "# 10-MinuteSketch" },
+                { id: 2, name: "# NoErasing" },
+                { id: 3, name: "# PixelArt" },
+                { id: 4, name: "# OneColor" },
+            ]);
+        } finally {
+            setLoadingChallenges(false);
+        }
+    };
+
+
     return (
         <div className='home'>
             <div className='share posted-today-section'>
-                <div className='posted-art-container'>
-                    <div className='posted-art-card-large'>
-                        <img src={todaysPostedArt.img} alt={todaysPostedArt.description} className='posted-art-image' />
+                {loadingArtworks ? (
+                    <div className='posted-art-container'>
+                        <p style={{ color: '#5C5A7B', fontSize: '1.5rem' }}>Loading...</p>
                     </div>
-                    <StreakBadge streakCount={streakCount} />
-                    <h2 className='posted-message'>You've shared your artwork today!</h2>
-                    <BorderedButton
-                        message='Share'
-                        size='pink'
-                        onClick={() => setShowSharePopup(true)}
-                    />
-                </div>
+                ) : todaysPostedArt ? (
+                    <div className='posted-art-container'>
+                        <div className='posted-art-card-large'>
+                            <img src={todaysPostedArt.img} alt={todaysPostedArt.description} className='posted-art-image' />
+                        </div>
+                        <StreakBadge streakCount={streakCount} />
+                        <h2 className='posted-message'>You've shared your artwork today!</h2>
+                        <BorderedButton
+                            message='Share'
+                            size='pink'
+                            onClick={() => setShowSharePopup(true)}
+                        />
+                    </div>
+                ) : (
+                    <div className='posted-art-container'>
+                        <h2 className='posted-message'>No artworks posted yet</h2>
+                        <BorderedButton
+                            message='Share Your First Artwork'
+                            size='pink'
+                            onClick={() => setShowSharePopup(true)}
+                        />
+                    </div>
+                )}
             </div>
 
             <div className='works'>
@@ -105,13 +217,27 @@ export function HomePagePosted() {
                 />
 
                 <h1 className='worksText'>Your Recent Works</h1>
-                <div className='art-grid'>
-                    {artWorks.map((art, index) => (
-                        <div key={index} className='art-card' onClick={() => setActiveArt(art)}>
-                            <img src={art.img} alt={art.description} className='art-image'></img>
-                        </div>
-                    ))}
-                </div>
+                {loadingArtworks ? (
+                    <div className='art-grid'>
+                        <p style={{ textAlign: 'center', color: '#5C5A7B', fontSize: '1.2rem', gridColumn: '1 / -1' }}>
+                            Loading your artworks...
+                        </p>
+                    </div>
+                ) : artWorks.length === 0 ? (
+                    <div className='art-grid'>
+                        <p style={{ textAlign: 'center', color: '#5C5A7B', fontSize: '1.2rem', gridColumn: '1 / -1' }}>
+                            No recent artworks found.
+                        </p>
+                    </div>
+                ) : (
+                    <div className='art-grid'>
+                        {artWorks.map((art, index) => (
+                            <div key={index} className='art-card' onClick={() => setActiveArt(art)}>
+                                <img src={art.img} alt={art.description} className='art-image'></img>
+                            </div>
+                        ))}
+                    </div>
+                )}
             </div>
 
             <div className='friends'>
@@ -169,7 +295,7 @@ export function HomePagePosted() {
                         />
                         <div className='podium-container'>
                             <div className='podium-item rank-2-position'>
-                                <img src={SampleImg} alt="2nd place" className='podium-avatar-top' />
+                                <img src={LeaderboardPerson2} alt="2nd place" className='podium-avatar-top' />
                                 <div className='podium-card rank-2'>
                                     <div className='podium-rank'>2</div>
                                 </div>
@@ -183,7 +309,7 @@ export function HomePagePosted() {
                             </div>
 
                             <div className='podium-item rank-3-position'>
-                                <img src={SampleImg2} alt="3rd place" className='podium-avatar-top' />
+                                <img src={LeaderboardPerson1} alt="3rd place" className='podium-avatar-top' />
                                 <div className='podium-card rank-3'>
                                     <div className='podium-rank'>3</div>
                                 </div>
@@ -202,11 +328,17 @@ export function HomePagePosted() {
                             className='challenge-button-link'
                         />
                         <div className='challenge-container'>
-                            {challenges.map((challenge) => (
-                                <button key={challenge.id} className='challenge-button'>
-                                    {challenge.name}
-                                </button>
-                            ))}
+                            {loadingChallenges ? (
+                                <p style={{ color: '#5C5A7B', fontSize: '1rem' }}>Loading challenges...</p>
+                            ) : challenges.length > 0 ? (
+                                challenges.map((challenge) => (
+                                    <button key={challenge.id} className='challenge-button'>
+                                        {challenge.name}
+                                    </button>
+                                ))
+                            ) : (
+                                <p style={{ color: '#5C5A7B', fontSize: '1rem' }}>No challenges available</p>
+                            )}
                         </div>
                     </div>
                 </div>

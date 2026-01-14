@@ -190,7 +190,7 @@ export function HomePage() {
                     <div className='no-artworks-container'>
                         <h2 className='no-artworks-title'>Share Your Art with the World!</h2>
                         <p className='no-artworks-message'>
-                            You haven't shared any artworks yet. Start your creative journey today and inspire others with your unique creations!
+                            You haven't shared any artworks yet. Start your creative journey today and inspire others with your art!
                         </p>
                         <BorderedButton
                             message='Share Your First Artwork'

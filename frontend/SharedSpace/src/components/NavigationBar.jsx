@@ -1,15 +1,58 @@
 // For the navigation bar.
 import './NavigationBar.css'                                 // Import CSS.
 import { Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 import SharedSpaceLogo from '../assets/SharedSpaceLogo.svg'
 
 // ____________________________________________________________________________________________________
 
 export function NavigationBar({ onSignOut, hasNewNotifications, onNotifications }) {
+    const [hasPostedToday, setHasPostedToday] = useState(false);
+
+    useEffect(() => {
+        checkIfPostedToday();
+    }, []);
+
+    const checkIfPostedToday = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            if (!token) return;
+
+            const response = await fetch('http://localhost:3000/api/artworks/my', {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+
+            if (response.ok) {
+                const artworks = await response.json();
+
+                if (artworks.length > 0) {
+                    // get the most recent artwork
+                    const latestArtwork = artworks.sort((a, b) =>
+                        new Date(b.uploadDate) - new Date(a.uploadDate)
+                    )[0];
+
+                    // check if it was uploaded today
+                    const uploadDate = new Date(latestArtwork.uploadDate);
+                    const today = new Date();
+
+                    const isToday = uploadDate.getDate() === today.getDate() &&
+                        uploadDate.getMonth() === today.getMonth() &&
+                        uploadDate.getFullYear() === today.getFullYear();
+
+                    setHasPostedToday(isToday);
+                }
+            }
+        } catch (error) {
+            console.error('Error checking if posted today:', error);
+        }
+    };
+
     return (
         <nav className='navbar'>
-            {/* Logo redirects to home page. */}
-            <Link to="/home">
+            {/* Logo redirects to home page or home-posted if user posted today. */}
+            <Link to={hasPostedToday ? "/home-posted" : "/home"}>
                 <div className='navbar-component-logo'>
                     <img src={SharedSpaceLogo} alt="Shared Space" height="55" width="55" className="navbar-logo" />
                 </div>

@@ -39,7 +39,9 @@ export function LoginPage() {
         if (data.userType === 'admin') {
           navigate('/mod-dashboard');
         } else {
-          navigate('/home');
+          // check if user has posted today
+          const hasPostedToday = await checkIfPostedToday(data.token);
+          navigate(hasPostedToday ? '/home-posted' : '/home');
         }
       } else {
         setError(data.error || 'Login failed. Please check your credentials.');
@@ -47,6 +49,41 @@ export function LoginPage() {
     } catch (err) {
       console.error('Login error:', err);
       setError('Connection refused. Is the server running?');
+    }
+  };
+
+  const checkIfPostedToday = async (token) => {
+    try {
+      const response = await fetch('http://localhost:3000/api/artworks/my', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        const artworks = await response.json();
+
+        if (artworks.length > 0) {
+          // get the most recent artwork
+          const latestArtwork = artworks.sort((a, b) =>
+            new Date(b.uploadDate) - new Date(a.uploadDate)
+          )[0];
+
+          // check if it was uploaded today
+          const uploadDate = new Date(latestArtwork.uploadDate);
+          const today = new Date();
+
+          const isToday = uploadDate.getDate() === today.getDate() &&
+            uploadDate.getMonth() === today.getMonth() &&
+            uploadDate.getFullYear() === today.getFullYear();
+
+          return isToday;
+        }
+      }
+      return false;
+    } catch (error) {
+      console.error('Error checking if posted today:', error);
+      return false;
     }
   };
 
