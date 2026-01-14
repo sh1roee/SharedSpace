@@ -174,6 +174,23 @@
     text-align: center !important;
 }
 
+/* Styling for the author name under the vote count */
+.lb-current-artwork-author {
+    font-size: 0.85rem;
+    color: #341539;
+    opacity: 0.8;
+    font-weight: 500;
+    text-align: center;
+}
+
+/* Faded look for empty podium spots */
+.placeholder-spot {
+    opacity: 0.5;
+    filter: grayscale(80%);
+    border: 2px dashed #341539;
+    box-shadow: none !important;
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
     .lb-current-leaderboard-wrapper {
