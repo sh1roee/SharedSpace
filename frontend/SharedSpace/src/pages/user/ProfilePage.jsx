@@ -311,7 +311,10 @@ export function ProfilePage() {
               </div>
 
               <div className="streak-value">
-                <h2>{user.streakCount}</h2>
+                <div className="streak-pill">
+                  <div className="streak-flame">🔥</div>
+                  <div className="streak-count-num">{user.streakCount}</div>
+                </div>
               </div>
             </div>
           </div>

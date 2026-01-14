@@ -21,6 +21,7 @@ export function EditProfilePopup({ isOpen, onClose, user, onSave }) {
         confirmPassword: '',
         profilePicture: null
     });
+    const [previewURL, setPreviewURL] = useState(null);
 
     // Update form data when the user prop changes or popup opens
     useEffect(() => {
@@ -33,6 +34,7 @@ export function EditProfilePopup({ isOpen, onClose, user, onSave }) {
                 confirmPassword: '',
                 profilePicture: null
             }));
+            setPreviewURL(user.avatar || null);
         }
     }, [user, isOpen]);
 
@@ -44,7 +46,15 @@ export function EditProfilePopup({ isOpen, onClose, user, onSave }) {
 
     // Handle file changes
     const handleFileChange = (e) => {
-        setFormData(prev => ({ ...prev, profilePicture: e.target.files[0] }));
+        const file = e.target.files[0];
+        if (file) {
+            setFormData(prev => ({ ...prev, profilePicture: file }));
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setPreviewURL(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
     };
 
     // Handle form submission
@@ -108,6 +118,17 @@ export function EditProfilePopup({ isOpen, onClose, user, onSave }) {
                 </div>
                 <div className="edit-body">
                     <form onSubmit={handleSubmit}>
+                        <div className="edit-profile-preview">
+                            <div className="preview-circle">
+                                {previewURL ? (
+                                    <img src={previewURL} alt="Preview" />
+                                ) : (
+                                    <div className="no-preview">?</div>
+                                )}
+                            </div>
+                            <div className="preview-label">Profile Preview</div>
+                        </div>
+
                         <div className="form-group">
                             <label>Username</label>
                             <input
@@ -116,6 +137,7 @@ export function EditProfilePopup({ isOpen, onClose, user, onSave }) {
                                 value={formData.username}
                                 onChange={handleChange}
                                 required
+                                placeholder="Enter your username"
                             />
                         </div>
                         <div className="form-group">
@@ -124,36 +146,45 @@ export function EditProfilePopup({ isOpen, onClose, user, onSave }) {
                                 name="bio"
                                 value={formData.bio}
                                 onChange={handleChange}
+                                placeholder="Tell us about yourself..."
                             />
                         </div>
                         <div className="form-group">
                             <label>Profile Picture</label>
-                            <input
-                                type="file"
-                                accept="image/*"
-                                onChange={handleFileChange}
-                            />
+                            <div className="file-input-wrapper">
+                                <input
+                                    type="file"
+                                    id="profilePic"
+                                    accept="image/*"
+                                    onChange={handleFileChange}
+                                />
+                            </div>
                         </div>
-                        <div className="form-group">
-                            <label>New Password (optional)</label>
-                            <input
-                                type="password"
-                                name="password"
-                                value={formData.password}
-                                onChange={handleChange}
-                                placeholder="Leave blank to keep current"
-                            />
+                        <div className="form-divider">
+                            <span>Account Security</span>
                         </div>
-                        <div className="form-group">
-                            <label>Confirm Password</label>
-                            <input
-                                type="password"
-                                name="confirmPassword"
-                                value={formData.confirmPassword}
-                                onChange={handleChange}
-                                placeholder="Confirm new password"
-                                disabled={!formData.password}
-                            />
+                        <div className="form-row">
+                            <div className="form-group">
+                                <label>New Password</label>
+                                <input
+                                    type="password"
+                                    name="password"
+                                    value={formData.password}
+                                    onChange={handleChange}
+                                    placeholder="Leave blank to keep"
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>Confirm Password</label>
+                                <input
+                                    type="password"
+                                    name="confirmPassword"
+                                    value={formData.confirmPassword}
+                                    onChange={handleChange}
+                                    placeholder="Verify new password"
+                                    disabled={!formData.password}
+                                />
+                            </div>
                         </div>
                         <div className="edit-popup-buttons">
                             <BorderedButton message="Save Changes" size="pink" type="submit" onClick={() => { }} />
