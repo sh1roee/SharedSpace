@@ -10,7 +10,7 @@ import dotenv from 'dotenv';
 import cloudinary from 'cloudinary';
 
 dotenv.config();
-const SECRET_KEY = process.env.SECRET_KEY;
+const SECRET_KEY = process.env.SECRET_KEY || process.env.JWT_SECRET;
 
 // find user by email
 const findByUserEmail = async (req, res, next) => {
