@@ -27,10 +27,14 @@ cloudinary.v2.config({
 const app = express();
 app.use(express.json());
 
-app.use(cors({
-  origin: process.env.FRONTEND_URL || true,
-  credentials: true
-}));
+const corsOptions = {
+  origin: 'https://shared-space-xi.vercel.app', // Allow only this origin
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],    // Allow these HTTP methods
+  allowedHeaders: ['Content-Type', 'Authorization'], // Allow these headers
+  credentials: true // Allow cookies/sessions if needed
+};
+
+app.use(cors(corsOptions));
 
 //connect mongodb
 // This ensures it works whether you use MONGO_URI (code) or MONGODB_URI (README)
