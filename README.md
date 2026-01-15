@@ -1,6 +1,6 @@
 #  Shared Space
 
-A vibrant social platform for artists to share their daily creations, connect with friends, and participate in creative challenges. Build your streak, climb the leaderboard, and explore a community of digital art.
+A web-based art-sharing platform designed for creatives to upload, showcase, and explore artworks through both private and public spaces. It includes features such as instant image sharing, a public Art Wall, voting systems, weekly challenges, leaderboards, and streak-based rewards to promote consistent engagement and creative growth. The platform welcomes community interaction,  participation, and content moderation to maintain a safe, collaborative, and motivating environment for artists.
 
 ##  Table of Contents
 
