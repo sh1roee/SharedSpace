@@ -9,7 +9,6 @@ A vibrant social platform for artists to share their daily creations, connect wi
 - [Getting Started](#getting-started)
 - [API Documentation](#api-documentation)
 - [Project Structure](#project-structure)
-- [Environment Variables](#environment-variables)
 
 ## ✨ Features
 
@@ -25,7 +24,6 @@ A vibrant social platform for artists to share their daily creations, connect wi
 
 ### Admin Features
 
-- 📊 **Dashboard**: View platform statistics and diverse user metrics.
 - 👥 **User Management**: Oversee registered users and manage community access.
 - 🛡️ **Content Moderation**: Tools to ensure the community remains safe and strictly for art.
 
@@ -175,28 +173,8 @@ SharedSpace/
         └── package.json
 ```
 
-## 🔐 Environment Variables
-
-### Backend `.env`
-
-```env
-# Database
-MONGODB_URI=mongodb+srv://...
-
-# Authentication
-JWT_SECRET=your_secret_key
-
-# Third-party Services
-CLOUDINARY_CLOUD_NAME=...
-CLOUDINARY_API_KEY=...
-CLOUDINARY_API_SECRET=...
-
-# Server
-PORT=3000
-```
-
 ## 📝 License
 
-This project is a creative sharing platform built for community engagement.
+This project is a creative sharing platform built for community engagement accomplished for JPAD.
 
 **Connect, Create, and Share your Space.**
