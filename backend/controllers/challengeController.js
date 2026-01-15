@@ -1,5 +1,6 @@
 import Challenge from '../models/challengeModel.js';
 import Artwork from '../models/artworkModel.js';
+import User from '../models/userModel.js';
 import mongoose from 'mongoose';
 import { updateStreak } from './userController.js'
 import { broadcastNotification } from '../utils/notificationHelper.js';
@@ -40,7 +41,7 @@ const getActiveChallenge = async (req, res) => {
     const now = new Date();
 
     // Find a challenge where today is between the start and end date
-    const activeChallenge = await Challenge.findOne({
+    const activeChallenge = await Challenge.find({
       startDate: { $lte: now },
       endDate: { $gte: now }
     });
@@ -117,6 +118,37 @@ const getAllChallenges = async (req, res) => {
   }
 };
 
+const getFriendsInChallenge = async (req, res) => {
+    try {
+        const { challengeId } = req.params;
+        const currentUserId = req.user.userId; // From verifyToken middleware
+
+        // Find the current user to get their friends list
+        const user = await User.findById(currentUserId);
+        if (!user || !user.friends) {
+            return res.status(200).json([]); // Return empty if no friends
+        }
+
+        // Find artworks that match the challenge AND are owned by friends
+        const artworks = await Artwork.find({
+            challengeId: challengeId,
+            ownerID: { $in: user.friends },
+            privacy: 'public' // Only show public submissions
+        }).populate('ownerID', 'username profilePicture'); // Get friend details
+
+        // Extract unique friend objects from the artworks
+        // Use a Map to ensure we don't show the same friend twice if they uploaded multiple arts
+        const uniqueFriends = Array.from(
+            new Map(artworks.map(art => [art.ownerID._id.toString(), art.ownerID])).values()
+        );
+
+        res.status(200).json(uniqueFriends);
+    } catch (error) {
+        console.error("Error fetching friends in challenge:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+};
+
 export {
-  createChallenge, getActiveChallenge, submitToChallenge, getAllChallenges
+  createChallenge, getActiveChallenge, submitToChallenge, getAllChallenges, getFriendsInChallenge
 }
