@@ -10,6 +10,7 @@ import Share from '../../assets/ShareYourDay.svg'
 import SampleImg from '../../assets/SharedSpaceLogo.svg'
 import SampleImg2 from '../../assets/react.svg'
 import LeaderboardPerson2 from '../../assets/LeaderboardPerson2.svg'
+import { Footer } from '../../components/Footer'
 import LeaderboardPerson1 from '../../assets/Leaderboard_Person1.svg'
 
 export function HomePage() {
@@ -398,6 +399,7 @@ export function HomePage() {
                 trigger={showSharePopup}
                 setTrigger={setShowSharePopup}
             />
+            <Footer />
         </div>
     )
 }

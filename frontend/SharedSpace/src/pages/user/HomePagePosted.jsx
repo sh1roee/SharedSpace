@@ -10,6 +10,7 @@ import LeaderboardPerson2 from '../../assets/LeaderboardPerson2.svg'
 import LeaderboardPerson1 from '../../assets/Leaderboard_Person1.svg'
 import { StreakBadge } from '../../components/StreakBadge';
 import { SharePopup } from '../../components/SharePopup';
+import { Footer } from '../../components/Footer'
 import API_BASE_URL from '../../apiConfig';
 
 export function HomePagePosted() {
@@ -451,6 +452,7 @@ export function HomePagePosted() {
                 trigger={showSharePopup}
                 setTrigger={setShowSharePopup}
             />
+            <Footer />
         </div>
     )
 }
