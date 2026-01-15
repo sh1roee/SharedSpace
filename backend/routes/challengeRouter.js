@@ -3,7 +3,8 @@ import {
   createChallenge,
   getActiveChallenge,
   submitToChallenge,
-  getAllChallenges
+  getAllChallenges,
+  getFriendsInChallenge
 } from '../controllers/challengeController.js';
 import { verifyToken, isAdmin } from '../middleware/auth.js';
 
@@ -16,5 +17,6 @@ router.post('/', verifyToken, isAdmin, createChallenge);
 router.get('/active', verifyToken, getActiveChallenge);
 router.get('/all', verifyToken, getAllChallenges);
 router.post('/submit', verifyToken, submitToChallenge);
+router.get('/friends/:challengeId', verifyToken, getFriendsInChallenge);
 
 export default router;
